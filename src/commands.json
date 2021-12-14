@@ -1,0 +1,31 @@
+{
+  "user_cmds": {
+    "serverinfo": "Zeigt Informationen über den Server",
+    "userinfo [member]": "Zeigt Informationen über einen User an",
+    "youtube": "Kevin Chromiks YouTube Kanal",
+    "github": "Kevin Chromiks GitHub Account",
+    "setup": "Kevin Chromiks Setup",
+    "help [command]": "Erklärt Commands"
+  },
+  "level_cmds": {
+    "rank [member]": "Zeigt Level des Users an",
+    "removexp [member]": "Entfernt xp eines Users"
+  },
+  "mod_cmds": {
+    "kick [member]": "Kickt einen User",
+    "ban [member]": "Bannt einen User",
+    "unban [user]": "Entbannt einen User",
+    "clear [number]": "Löscht Nachrichten",
+    "mute [member] [minutes]": "Muted einen User für die angegebenen Minuten",
+    "unmute [member]": "Endmuted einen User"
+  },
+  "warn_cmds": {
+    "warn [member]": "Verwarnt einen User",
+    "warnlevel [member]": "Zeigt das Warnlevel eines Users an",
+    "clearwarnlevel [member]": "Setzt das Warnlevel eines Users auf 0"
+  },
+  "admin_cmds": {
+    "enable [command]": "Aktiviert einen Command",
+    "disable [command]": "Deaktiviert einen Command"
+  }
+}
