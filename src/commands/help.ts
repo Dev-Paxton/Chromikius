@@ -48,7 +48,7 @@ export default new Command({
 				embed.addField(cmd_group_name, value, true)
 			}
 
-			const msg = await interaction.reply({ embeds: [embed], fetchReply: true })
+			const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as any
 
 			const allowed_reactions = []
 			Object.keys(cmd_group_emojis).forEach(key => {
