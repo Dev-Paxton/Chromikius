@@ -7,8 +7,8 @@
     "start": "ts-node ./main.ts",
     "deploy": "ts-node ./deploy_commands.ts",
     "build": "tsc",
-    "start:prod": "node ./dist/main.js",
-    "deploy:prod": "node ./dist/deploy_commands.js"
+    "start:prod": "export NODE_ENV=production && node ./dist/main.js",
+    "deploy:prod": "export NODE_ENV=production && node ./dist/deploy_commands.js"
   },
   "repository": {
     "type": "git",
