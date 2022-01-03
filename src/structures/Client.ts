@@ -3,15 +3,9 @@ import { CommandType } from "../types/commandType";
 import fs from "fs"
 import { Event } from "./Event";
 import dotenv from "dotenv"
+import ConfigService from "../services/configService";
 
-dotenv.config()
-
-if (process.env.enviroment === "dev") {
-    console.log("DEV")
-    var botToken: string = process.env.DEV_BOT_TOKEN
-  } else {
-    var botToken: string = process.env.BOT_TOKEN
-  }
+const botToken = ConfigService.getConfig().bot.token;
 
 const myIntents = new Intents()
 myIntents.add(

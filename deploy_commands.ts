@@ -2,17 +2,9 @@ import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import fs from "fs"
 import dotenv from "dotenv"
+import ConfigService from "./src/services/configService"
 
-dotenv.config()
-
-if (process.env.enviroment === "dev") {
-  console.log("DEV")
-  var botToken: string = process.env.DEV_BOT_TOKEN
-  var botId: string = process.env.DEV_BOT_ID
-} else {
-  var botToken: string = process.env.BOT_TOKEN
-  var botId: string = process.env.BOT_ID
-}
+const {token: botToken, id: botId} = ConfigService.getConfig().bot; 
 
 const commands = []
 const commandFiles = []
