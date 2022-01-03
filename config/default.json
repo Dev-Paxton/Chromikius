@@ -1,0 +1,10 @@
+{
+    "database": {
+        "host": "localhost",
+        "databaseName": "test_chromik",
+        "userName": "root"
+    },
+    "bot": {
+        "id": "blalaal"
+    }
+}
