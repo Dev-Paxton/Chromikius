@@ -33,9 +33,6 @@ export default class ConfigService {
         const database = { ...config.get("database"), password: process.env.DATABASE_PSWD} as DbSettings;        
         const bot = {...config.get("bot"), token: process.env.BOT_TOKEN} as BotSettings; 
 
-        console.log(process.env.NODE_ENV);
-        console.log(database);
-
         return {
             database,
             bot
