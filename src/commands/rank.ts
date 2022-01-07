@@ -64,110 +64,109 @@ export default new Command({
             return
         }
 
-        db.levelsystem_get_stats(member.id, async (stats: userLevelStats) => {
-            if (stats === undefined) {
-                const embed = new MessageEmbed()
-                    .setColor("#fc030b")
-                    .setTitle("Dieser User hat noch keine Nachricht verfasst")
-                await interaction.reply({ embeds: [embed], ephemeral: true })
-                return
-            }
+        const stats:userLevelStats = await db.levelsystem_get_stats(member.id)
+        if (stats === undefined) {
+            const embed = new MessageEmbed()
+                .setColor("#fc030b")
+                .setTitle("Dieser User hat noch keine Nachricht verfasst")
+            await interaction.reply({ embeds: [embed], ephemeral: true })
+            return
+        }
 
-            const fileNameAvatar = member.id + "Avatar.png"
-            const fileNameCard = member.id + "Card.png"
+        const fileNameAvatar = member.id + "Avatar.png"
+        const fileNameCard = member.id + "Card.png"
 
-            const response = await fetch(member.avatarURL())
-            const buffer = await response.buffer()
+        const response = await fetch(member.avatarURL())
+        const buffer = await response.buffer()
 
-            sharp(buffer)
-            .resize({ width: 200, height: 200 })
-            .extend({top: 10, right: 10, bottom: 10, left: 10, background: "black"})
-            .png()
-            .toFile(fileNameAvatar, async (error) => {
-                if (error) throw error
+        sharp(buffer)
+        .resize({ width: 200, height: 200 })
+        .extend({top: 10, right: 10, bottom: 10, left: 10, background: "black"})
+        .png()
+        .toFile(fileNameAvatar, async (error) => {
+            if (error) throw error
 
-                if (stats.xp === 0) {
-                    var progressBar = "--------------------"
-                } else if (stats.xp === 1) {
-                    var progressBar = "[][][][][][][][][][]----------"
-                } else if (stats.level != 1) {
-                    const levelUp = stats.level * stats.level
-                    const currentLevelUp = (stats.level - 1) * (stats.level - 1)
-                    const requiredXpInPercent = 100 / (levelUp - currentLevelUp) * (stats.xp - currentLevelUp)
-                    const requiredSymbols = requiredXpInPercent / 10
+            if (stats.xp === 0) {
+                var progressBar = "--------------------"
+            } else if (stats.xp === 1) {
+                var progressBar = "[][][][][][][][][][]----------"
+            } else if (stats.level != 1) {
+                const levelUp = stats.level * stats.level
+                const currentLevelUp = (stats.level - 1) * (stats.level - 1)
+                const requiredXpInPercent = 100 / (levelUp - currentLevelUp) * (stats.xp - currentLevelUp)
+                const requiredSymbols = requiredXpInPercent / 10
 
-                    var progressBar = ""
-                    var a = 1
-                    while (a <= requiredSymbols) {
-                        if (progressBar === undefined) {
-                            progressBar = "[]"
-                        } else {
-                            progressBar += "[]"
-                        }
-                        a += 1
+                var progressBar = ""
+                var a = 1
+                while (a <= requiredSymbols) {
+                    if (progressBar === undefined) {
+                        progressBar = "[]"
+                    } else {
+                        progressBar += "[]"
                     }
-
-                    while (progressBar.length < 20) {
-                        progressBar += "--"
-                    }
+                    a += 1
                 }
 
-                sharp(`images/background${Math.floor(Math.random() * 5) + 1}.png`)
-                .composite([
-                    {
-                        input: fileNameAvatar,
-                        top: 40,
-                        left: 40,
-                    },
-                    {
-                        input: await getSvgBuffer("Level:", 300, 40),
-                        top: 0,
-                        left: 0
-                    },
-                    {
-                        input: await getSvgBuffer(stats.level, 300, 100),
-                        top: 0,
-                        left: 0
-                    },
-                    {
-                        input: await getSvgBuffer("Rank:", 500, 40),
-                        top: 0,
-                        left: 0
-                    },
-                    {
-                        input: await getSvgBuffer(stats.rank, 500, 100),
-                        top: 0,
-                        left: 0
-                    },
-                    {
-                        input: await getSvgBuffer("xp:", 700, 40),
-                        top: 0,
-                        left: 0
-                    },
-                    {
-                        input: await getSvgBuffer(stats.xp, 700, 100),
-                        top: 0,
-                        left: 0
-                    },
-                    {
-                        input: await getSvgBuffer("|" + progressBar + "|", 300, 200),
-                        top: 0,
-                        left: 0
-                    }
-                ])
-                .png()
-                .toFile(fileNameCard, async (error) => {
-                    if (error) throw error
-                    
-                    await interaction.reply({ files: [fileNameCard]})
-                    
-                    fs.unlink(fileNameAvatar, (error) => {
-                        if (error) throw error
-                    })
+                while (progressBar.length < 20) {
+                    progressBar += "--"
+                }
+            }
+
+            sharp(`images/background${Math.floor(Math.random() * 5) + 1}.png`)
+            .composite([
+                {
+                    input: fileNameAvatar,
+                    top: 40,
+                    left: 40,
+                },
+                {
+                    input: await getSvgBuffer("Level:", 300, 40),
+                    top: 0,
+                    left: 0
+                },
+                {
+                    input: await getSvgBuffer(stats.level, 300, 100),
+                    top: 0,
+                    left: 0
+                },
+                {
+                    input: await getSvgBuffer("Rank:", 500, 40),
+                    top: 0,
+                    left: 0
+                },
+                {
+                    input: await getSvgBuffer(stats.rank, 500, 100),
+                    top: 0,
+                    left: 0
+                },
+                {
+                    input: await getSvgBuffer("xp:", 700, 40),
+                    top: 0,
+                    left: 0
+                },
+                {
+                    input: await getSvgBuffer(stats.xp, 700, 100),
+                    top: 0,
+                    left: 0
+                },
+                {
+                    input: await getSvgBuffer("|" + progressBar + "|", 300, 200),
+                    top: 0,
+                    left: 0
+                }
+            ])
+            .png()
+            .toFile(fileNameCard, async (error) => {
+                if (error) throw error
                 
-                    fs.unlink(fileNameCard, (error) => {
-                        if (error) throw error
-                    })
+                await interaction.reply({ files: [fileNameCard]})
+                
+                fs.unlink(fileNameAvatar, (error) => {
+                    if (error) throw error
+                })
+            
+                fs.unlink(fileNameCard, (error) => {
+                    if (error) throw error
                 })
             })
         })

@@ -24,21 +24,21 @@ export default new Command({
         const member = interaction.options.get("member")
         const xpToBeRemoved = interaction.options.get("xp").value as number
 
-        db.levelsystem_get_stats(member.user.id, async (stats: userLevelStats) => {
-            if (stats === undefined) {
-                const embed = new MessageEmbed()
-                    .setColor("#fc030b")
-                    .setTitle("Dieser User hat noch keine Nachricht verfasst")
-                await interaction.reply({ embeds: [embed], ephemeral: true })
-                return
-            }
+        const stats = await db.levelsystem_get_stats(member.user.id)
+        
+        if (stats === undefined) {
+            const embed = new MessageEmbed()
+                .setColor("#fc030b")
+                .setTitle("Dieser User hat noch keine Nachricht verfasst")
+            await interaction.reply({ embeds: [embed], ephemeral: true })
+            return
+        }
 
-            const newXp = stats.xp - xpToBeRemoved
-            const newLevel = Math.ceil(Math.sqrt(newXp))
-            
-            db.levelsystem_removexp(newXp, newLevel, member.user.id)
+        const newXp = stats.xp - xpToBeRemoved
+        const newLevel = Math.ceil(Math.sqrt(newXp))
+        
+        db.levelsystem_removexp(newXp, newLevel, member.user.id)
 
-            await interaction.reply(`${member.user} wurden ${xpToBeRemoved} xp abgezogen`)
-        })
+        await interaction.reply(`${member.user} wurden ${xpToBeRemoved} xp abgezogen`)
     }
 })
