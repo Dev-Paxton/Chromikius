@@ -11,10 +11,11 @@ async function getSvgBuffer(text: string | number, x:number, y:number) {
     const svg = `
     <svg width="900" height="300">
         <style>
+            @import url('https://fonts.googleapis.com/css2?amp;family=Roboto+Mono&amp;display=swap');
             .text {
                 fill: #ffff;
                 font-size: 50px;
-                font-family: monospace;
+                font-family: 'Roboto Mono', monospace;
                 font-weight: bold;
             }
         </style>
@@ -93,9 +94,9 @@ export default new Command({
                     const levelUp = stats.level * stats.level
                     const currentLevelUp = (stats.level - 1) * (stats.level - 1)
                     const requiredXpInPercent = 100 / (levelUp - currentLevelUp) * (stats.xp - currentLevelUp)
-                    const requiredSymbols = requiredXpInPercent / 5
+                    const requiredSymbols = requiredXpInPercent / 10
 
-                    var progressbar = ""
+                    var progressBar = ""
                     var a = 1
                     while (a <= requiredSymbols) {
                         if (progressBar === undefined) {
@@ -106,10 +107,8 @@ export default new Command({
                         a += 1
                     }
 
-                    var progressBarLength = progressBar.length / 2
-                    while (progressBarLength < 20) {
-                        progressBar += "-"
-                        progressBarLength += 1
+                    while (progressBar.length < 20) {
+                        progressBar += "--"
                     }
                 }
 
