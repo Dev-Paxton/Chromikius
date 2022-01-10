@@ -41,9 +41,9 @@ export class Database {
 
                     rank += 1
                 }
-            })
 
-            resolve(undefined)
+                resolve(undefined)
+            })
         })
         
     }
@@ -58,8 +58,9 @@ export class Database {
                         if (error) throw error
                     })
                     this.db.commit()
-                    resolve()
                 }
+
+                resolve()
             })
         })
     }
@@ -70,14 +71,15 @@ export class Database {
                 if (error) throw error
 
                 if (results.length != 0) {
-                    const new_xp:number = results[0].xp + 1
+                    const new_xp: number = results[0].xp + 1
 
                     this.db.query(`UPDATE levelsystem SET xp = ${new_xp} WHERE id = ${member_id}`, (error, results, fields) => {
                         if (error) throw error
                     })
                     this.db.commit()
-                    resolve()
                 }
+
+                resolve()
             })
         })
         
@@ -101,7 +103,6 @@ export class Database {
                             })
                             
                             this.db.commit()
-                            resolve()
                             message.react("<:LevelUp:726876303319367751>")
                         }
                     } else {
@@ -112,11 +113,12 @@ export class Database {
                                 if (error) throw error
                             })
                             this.db.commit()
-                            resolve()
                             message.react("<:LevelUp:726876303319367751>")
                         }
                     }
                 }
+
+                resolve()
             })
         })
         

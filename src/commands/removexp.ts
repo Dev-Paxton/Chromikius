@@ -1,7 +1,6 @@
-import { MessageEmbed } from "discord.js";
+import { GuildMember, MessageEmbed, Permissions } from "discord.js";
 import { db } from "../../main";
 import { Command } from "../structures/Command";
-import { userLevelStats } from "../types/userStats";
 
 export default new Command({
     name: "removexp",
@@ -21,6 +20,14 @@ export default new Command({
         },
     ],
     execute: async ({ interaction }) => {
+        if (!interaction.member.permissions.has("ADMINISTRATOR")) {
+            const embed = new MessageEmbed()
+                .setColor("#fc030b")
+                .setTitle("Dazu bist du nicht berechtigt")
+            await interaction.reply({ embeds: [embed], ephemeral: true })
+            return
+        }
+
         const member = interaction.options.get("member")
         const xpToBeRemoved = interaction.options.get("xp").value as number
 

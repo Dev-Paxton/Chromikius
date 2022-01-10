@@ -64,7 +64,7 @@ export default new Command({
             return
         }
 
-        const stats:userLevelStats = await db.levelsystem_get_stats(member.id)
+        const stats: userLevelStats = await db.levelsystem_get_stats(member.id)
         if (stats === undefined) {
             const embed = new MessageEmbed()
                 .setColor("#fc030b")
