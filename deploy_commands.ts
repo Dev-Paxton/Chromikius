@@ -16,12 +16,12 @@ if (process.env.enviroment === "dev") {
 
 const commands = []
 const commandFiles = []
-commandFiles.push.apply(commandFiles, fs.readdirSync(`./src/commands`).filter(file => file.endsWith('.ts')))
-commandFiles.push.apply(commandFiles, fs.readdirSync(`./src/commands`).filter(file => file.endsWith('.js')))
+commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/src/commands`).filter(file => file.endsWith('.ts')))
+commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/src/commands`).filter(file => file.endsWith('.js')))
 
 
 for (const file of commandFiles) {
-  const command = require(`./src/commands/${file}`)
+  const command = require(`${__dirname}/src/commands/${file}`)
 	commands.push(command.default)
 }
 

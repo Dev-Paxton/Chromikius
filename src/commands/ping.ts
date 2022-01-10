@@ -1,6 +1,5 @@
 import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
-import fs from "fs"
 
 export default new Command({
     name: "ping",
