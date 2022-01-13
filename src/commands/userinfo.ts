@@ -33,6 +33,8 @@ export default new Command({
             }
         })
 
+        const joinedAt = guildMember.joinedAt.getDay() + "." + guildMember.joinedAt.getMonth().toString() + "." + guildMember.joinedAt.getFullYear().toString()
+
         if (guildMember.premiumSince === null) {
             var premiumSice = "0"
         } else {
@@ -46,7 +48,7 @@ export default new Command({
             .addField("Name", member.username + "#" + member.discriminator, true)
             .addField("ID", String(member.id), true)
             .addField("Rollen", roles, true)
-            .addField("Serverbeitritt", guildMember.joinedAt.toString(), true)
+            .addField("Serverbeitritt", joinedAt, true)
             .addField("Booster seit", premiumSice, true)
 
         await interaction.reply({ embeds: [embed], ephemeral: true })
