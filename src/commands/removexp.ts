@@ -1,24 +1,27 @@
 import { GuildMember, MessageEmbed, Permissions } from "discord.js";
-import { db } from "../../main";
 import { Command } from "../structures/Command";
+import { Database } from "../structures/Database";
 
 export default new Command({
-    name: "removexp",
-    description: "Entfernt xp eines Members",
-    options: [
-        {
-            type: 6,
-            name: "member",
-            description: "Member von dem xp entfernt werden soll",
-            required: true,
-        },
-        {
-            type: 4,
-            name: "xp",
-            description: "Erfahrung die entfernt werden soll",
-            required: true,
-        },
-    ],
+    data: {
+        name: "removexp",
+        description: "Entfernt xp eines Members",
+        options: [
+            {
+                type: 6,
+                name: "member",
+                description: "Member von dem xp entfernt werden soll",
+                required: true,
+            },
+            {
+                type: 4,
+                name: "xp",
+                description: "Erfahrung die entfernt werden soll",
+                required: true,
+            },
+        ],
+    },
+    allowDm: false,
     execute: async ({ interaction }) => {
         if (!interaction.member.permissions.has("ADMINISTRATOR")) {
             const embed = new MessageEmbed()
@@ -31,7 +34,7 @@ export default new Command({
         const member = interaction.options.get("member")
         const xpToBeRemoved = interaction.options.get("xp").value as number
 
-        const stats = await db.levelsystem_get_stats(member.user.id)
+        const stats = await Database.levelsystem_get_stats(member.user.id)
         
         if (stats === undefined) {
             const embed = new MessageEmbed()
@@ -44,7 +47,7 @@ export default new Command({
         const newXp = stats.xp - xpToBeRemoved
         const newLevel = Math.ceil(Math.sqrt(newXp))
         
-        db.levelsystem_removexp(newXp, newLevel, member.user.id)
+        Database.levelsystem_removexp(newXp, newLevel, member.user.id)
 
         await interaction.reply(`${member.user} wurden ${xpToBeRemoved} xp abgezogen`)
     }

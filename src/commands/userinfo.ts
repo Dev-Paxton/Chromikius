@@ -2,15 +2,18 @@ import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
-    name: "userinfo",
-    description: "Zeigt Informationen über einen User an",
-    options: [
-        {
-            type: 6,
-            name: "member",
-            description: "Member dessen Info angezeigt werden soll",
-        },
-    ],
+    data: {
+        name: "userinfo",
+        description: "Zeigt Informationen über einen User an",
+        options: [
+            {
+                type: 6,
+                name: "member",
+                description: "Member dessen Info angezeigt werden soll",
+            },
+        ],
+    },
+    allowDm: false,
     execute: async ({ interaction }) => {
         const input_member = interaction.options.get("member")
 

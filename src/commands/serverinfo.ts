@@ -2,8 +2,11 @@ import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
-    name: "serverinfo",
-    description: "Zeigt Informationen über den Server",
+    data: {
+        name: "serverinfo",
+        description: "Zeigt Informationen über den Server",
+    },
+    allowDm: false,
     execute: async ({ interaction }) => {
         const joinedAt = interaction.guild.createdAt.getDay() + "." + interaction.guild.createdAt.getMonth().toString() + "." + interaction.guild.createdAt.getFullYear().toString()
 

@@ -2,8 +2,10 @@ import { MessageEmbed } from "discord.js"
 import { Command } from "../structures/Command"
 
 export default new Command({
-    name: "setup",
-    description: "Kevin Chromiks Setup",
+    data: {
+        name: "setup",
+        description: "Kevin Chromiks Setup",
+    },
     execute: async ({ interaction }) => {
         const embed = new MessageEmbed()
             .setColor("#ff9e00")

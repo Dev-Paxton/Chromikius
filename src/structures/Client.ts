@@ -40,7 +40,7 @@ export class ExtendedClient extends Client {
 
         for (const file of commandFiles) {
             const command: CommandType = (await import(`${__dirname}/../commands/${file}`)).default
-            this.commands.set(command.name, command)
+            this.commands.set(command.data.name, command)
         }
 
         //Events

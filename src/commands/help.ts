@@ -3,15 +3,18 @@ import { MessageEmbed, User } from "discord.js";
 import fs from "fs"
 
 export default new Command({
-    name: "help",
-    description: "Antwortet mit einer Hilfe zu den Commands",
-	options: [
-        {
-            type: 3,	//3 = STRING
-            name: "command",
-            description: "Enter a command"
-        }
-    ],
+	data: {
+		name: "help",
+		description: "Antwortet mit einer Hilfe zu den Commands",
+		options: [
+			{
+				type: 3,	//3 = STRING
+				name: "command",
+				description: "Enter a command"
+			}
+		],
+	},
+	allowDm: false,
     execute: async({ interaction }) => {
         const input_command = interaction.options.getString('command')
 

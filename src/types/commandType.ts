@@ -14,6 +14,7 @@ interface RunOptions {
 type RunFunction = (options: RunOptions) => any
 
 export type CommandType = {
-    userPermission?: PermissionResolvable[]
+    data: ChatInputApplicationCommandData
+    allowDm?: boolean
     execute: RunFunction
-} & ChatInputApplicationCommandData
+}

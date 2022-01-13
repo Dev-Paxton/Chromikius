@@ -1,10 +1,10 @@
-import { Guild, GuildMember, MessageEmbed, User } from "discord.js"
+import { MessageEmbed } from "discord.js"
 import sharp from "sharp"
-import { db } from "../../main"
 import { Command } from "../structures/Command"
 import { userLevelStats } from "../types/userStats"
 import fetch from "node-fetch"
 import fs from "fs"
+import { Database } from "../structures/Database"
 
 async function getSvgBuffer(text: string | number, x:number, y:number) {
     y += 35
@@ -27,15 +27,17 @@ async function getSvgBuffer(text: string | number, x:number, y:number) {
 }
 
 export default new Command({
-    name: "rank",
-    description: "Zeigt dein Level an",
-    options: [
-        {
-            type: 6,
-            name: "member",
-            description: "Member dessen Level angezeigt werden soll"
-        }
-    ],
+    data: {
+        name: "rank",
+        description: "Zeigt dein Level an",
+        options: [
+            {
+                type: 6,
+                name: "member",
+                description: "Member dessen Level angezeigt werden soll"
+            }
+        ],
+    },
     execute: async({ interaction }) => {
         var interactionMember = interaction.options.get("member")
 
@@ -64,7 +66,7 @@ export default new Command({
             return
         }
 
-        const stats: userLevelStats = await db.levelsystem_get_stats(member.id)
+        const stats: userLevelStats = await Database.levelsystem_get_stats(member.id)
         if (stats === undefined) {
             const embed = new MessageEmbed()
                 .setColor("#fc030b")

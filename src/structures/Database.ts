@@ -12,9 +12,9 @@ if (process.env.enviroment === "dev") {
   }
 
 export class Database {
-    private db: Connection;
+    private static db: Connection;
 
-    constructor(){
+    static connect() {
         this.db = mysql.createConnection({
             host: "localhost",
             user: "root",
@@ -25,7 +25,7 @@ export class Database {
         this.db.connect()
     }
 
-    levelsystem_get_stats(member_id: string) {
+    static levelsystem_get_stats(member_id: string) {
         return new Promise<userLevelStats>(resolve => {
             this.db.query(`SELECT * FROM levelsystem ORDER BY xp DESC`, (error, results, fields) => {
                 if (error) throw error
@@ -48,7 +48,7 @@ export class Database {
         
     }
 
-    levelsystem_register(member_id: string) {
+    static levelsystem_register(member_id: string) {
         return new Promise<void>(resolve => {
             this.db.query(`SELECT * FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
@@ -65,7 +65,7 @@ export class Database {
         })
     }
 
-    async levelsystem_add_xp(member_id: string) {
+    static async levelsystem_add_xp(member_id: string) {
         return new Promise<void>(resolve => {
             this.db.query(`SELECT xp FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
@@ -85,7 +85,7 @@ export class Database {
         
     }
 
-    levelsystem_level_up(member_id: string, message: Message) {
+    static levelsystem_level_up(member_id: string, message: Message) {
         return new Promise<void>(resolve => {
             this.db.query(`SELECT * FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
@@ -124,7 +124,7 @@ export class Database {
         
     }
 
-    levelsystem_removexp(xp: number, level: number, member_id: string) {
+    static levelsystem_removexp(xp: number, level: number, member_id: string) {
         return new Promise<void>(resolve => {
             this.db.query(`UPDATE levelsystem SET xp = ${xp}, level = ${level} WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
