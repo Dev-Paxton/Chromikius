@@ -15,8 +15,6 @@ export default class Database {
             database: Config.database.databaseName
         })
 
-        console.log(Config.database.databaseName)
-
         this.db.connect()
     }
 

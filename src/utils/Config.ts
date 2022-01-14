@@ -13,6 +13,5 @@ export default class Config {
         this.database = config.get("database")
         this.bot = config.get("bot")
         this.guild = config.get("guild")
-        console.log(this.database)
     }
 }
