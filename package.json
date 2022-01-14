@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node ./main.ts",
     "deploy": "ts-node ./deploy_commands.ts",
-    "build": "tsc",
+    "build": "tsc && cp -r ./images ./dist/",
     "start:prod": "export NODE_ENV=prod && node ./dist/main.js",
     "deploy:prod": "export NODE_ENV=prod && node ./dist/deploy_commands.js"
   },

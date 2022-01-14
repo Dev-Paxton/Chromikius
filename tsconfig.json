@@ -5,8 +5,9 @@
         "target": "ESNext",
         "outDir": "dist",
         "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true
     },
-    "include": ["main.ts", "deploy_commands.ts", "src"],
+    "include": ["main.ts", "deploy_commands.ts", "src", "src/**/*.json", "config/**/*.json"],
     "exclude": ["node_modules"]
 }
