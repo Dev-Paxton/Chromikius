@@ -1,26 +1,21 @@
 import mysql, { Connection } from "mysql"
-import dotenv from "dotenv"
 import { Message } from "discord.js"
 import { userLevelStats } from "../types/userStats"
+import Config from "./Config";
 
-dotenv.config()
 
-if (process.env.enviroment === "dev") {
-    var database = "test_chromik"
-  } else {
-    var database = "chromik"
-  }
-
-export class Database {
+export default class Database {
     private static db: Connection;
 
     static connect() {
         this.db = mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: process.env.DATABASE_PSWD,
-            database: database
+            host: Config.database.host,
+            user: Config.database.userName,
+            password: Config.database.password,
+            database: Config.database.databaseName
         })
+
+        console.log(Config.database.databaseName)
 
         this.db.connect()
     }

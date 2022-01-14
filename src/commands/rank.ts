@@ -4,7 +4,7 @@ import { Command } from "../structures/Command"
 import { userLevelStats } from "../types/userStats"
 import fetch from "node-fetch"
 import fs from "fs"
-import { Database } from "../structures/Database"
+import Database from "../utils/Database"
 
 async function getSvgBuffer(text: string | number, x:number, y:number) {
     y += 35

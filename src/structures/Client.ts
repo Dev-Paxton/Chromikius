@@ -2,16 +2,7 @@ import { Client, ClientEvents, Collection, Intents } from "discord.js";
 import { CommandType } from "../types/commandType";
 import fs from "fs"
 import { Event } from "./Event";
-import dotenv from "dotenv"
-
-dotenv.config()
-
-if (process.env.enviroment === "dev") {
-    console.log("DEV")
-    var botToken: string = process.env.DEV_BOT_TOKEN
-  } else {
-    var botToken: string = process.env.BOT_TOKEN
-  }
+import Config from "../utils/Config";
 
 const myIntents = new Intents()
 myIntents.add(
@@ -29,7 +20,7 @@ export class ExtendedClient extends Client {
 
     start() {
         this.registerModules()
-        this.login(botToken)
+        this.login(Config.bot.token)
     }
 
     async registerModules() {
