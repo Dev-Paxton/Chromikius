@@ -1,6 +1,6 @@
-import { GuildMember, MessageEmbed, Permissions } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
-import { Database } from "../structures/Database";
+import Database from "../utils/Database";
 
 export default new Command({
     data: {

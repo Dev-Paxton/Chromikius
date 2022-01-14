@@ -1,20 +1,9 @@
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import fs from "fs"
-import dotenv from "dotenv"
+import Config from "./src/utils/Config"
 
-dotenv.config()
-
-if (process.env.enviroment === "dev") {
-  console.log("DEV")
-  var botToken: string = process.env.DEV_BOT_TOKEN
-  var botId: string = process.env.DEV_BOT_ID
-  var guildId: string = process.env.DEV_GUILD_ID
-} else {
-  var botToken: string = process.env.BOT_TOKEN
-  var botId: string = process.env.BOT_ID
-  var guildId: string = process.env.GUILD_ID
-}
+Config.loadConfig()
 
 async function deployCommands() {
   const allCommands = []
@@ -36,19 +25,19 @@ async function deployCommands() {
     }
   }
 
-  const rest = new REST({ version: '9' }).setToken(botToken);
+  const rest = new REST({ version: '9' }).setToken(Config.bot.token);
 
   (async () => {
     try {
       console.log('Started refreshing application (/) commands.')
 
       await rest.put(
-        Routes.applicationCommands(botId),
+        Routes.applicationCommands(Config.bot.id),
         { body: dmCommands },
       )
 
       await rest.put(
-        Routes.applicationGuildCommands(botId, guildId),
+        Routes.applicationGuildCommands(Config.bot.id, Config.guild.id),
         { body: allCommands },
       )
 

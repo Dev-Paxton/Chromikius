@@ -1,6 +1,8 @@
 import { ExtendedClient } from "./src/structures/Client"
-import { Database } from "./src/structures/Database"
+import Config from "./src/utils/Config"
+import Database from "./src/utils/Database"
 
+Config.loadConfig()
 Database.connect()
 export const client = new ExtendedClient()
 

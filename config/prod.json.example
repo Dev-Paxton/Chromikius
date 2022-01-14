@@ -1,0 +1,15 @@
+{
+    "database": {
+        "host": "HOST",
+        "userName": "USERNAME",
+        "password": "PASSWORD",
+        "databaseName": "DATABASE_NAME"
+    },
+    "bot": {
+        "id": "BOT_ID",
+        "token": "TOKEN"
+    },
+    "guild": {
+        "id": "GUILD_ID"
+    }
+}
