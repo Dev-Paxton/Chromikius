@@ -191,7 +191,7 @@ export default class Database {
                 
                 if (results.length != 0) {
                     var warnlevel = results[0].warnlevel
-                    resolve({ warnlevel })
+                    resolve(warnlevel)
                 }
 
                 resolve(undefined)
