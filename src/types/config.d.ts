@@ -14,4 +14,5 @@ export interface BotSettings {
 export interface GuildSettings {
     id: string
     surveyChannelId: string
+    welcomeChannelId: string
 }
