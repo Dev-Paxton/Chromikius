@@ -11,6 +11,7 @@
         "token": "TOKEN"
     },
     "guild": {
-        "id": "GUILD_ID"
+        "id": "GUILD_ID",
+        "surveyChannelId": "CHANNEL_ID"
     }
 }
