@@ -15,4 +15,5 @@ export interface GuildSettings {
     id: string
     surveyChannelId: string
     welcomeChannelId: string
+    memberRoleId: string
 }

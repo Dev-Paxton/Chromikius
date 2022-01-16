@@ -1,4 +1,4 @@
-import { DiscordAPIError, MessageEmbed, TextChannel } from "discord.js";
+import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
 import { Event } from "../structures/Event";
 import Config from "../utils/Config";
 
@@ -34,4 +34,8 @@ export default new Event("guildMemberAdd", (member) => {
     
     const channel = member.guild.channels.cache.get(Config.guild.welcomeChannelId) as TextChannel
     channel.send(messages[Math.floor(Math.random()*messages.length)])
+
+    // Auto role
+    const memberRole = member.guild.roles.cache.get(Config.guild.memberRoleId)
+    member.roles.add(memberRole)
 })
