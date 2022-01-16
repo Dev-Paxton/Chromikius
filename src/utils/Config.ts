@@ -8,10 +8,13 @@ export default class Config {
 
 
     static loadConfig() {
-        console.log(process.env.NODE_ENV)
-
         this.database = config.get("database")
         this.bot = config.get("bot")
         this.guild = config.get("guild")
+
+        console.log("Enviroment: " + process.env.NODE_ENV)
+        if (!this.database.required) {
+            console.log("Database disabled")
+        }
     }
 }

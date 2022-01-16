@@ -8,18 +8,22 @@ export default class Database {
     private static db: Connection;
 
     static connect() {
-        this.db = mysql.createConnection({
-            host: Config.database.host,
-            user: Config.database.userName,
-            password: Config.database.password,
-            database: Config.database.databaseName
-        })
+        if (Config.database.required) {
+            this.db = mysql.createConnection({
+                host: Config.database.host,
+                user: Config.database.userName,
+                password: Config.database.password,
+                database: Config.database.databaseName
+            })
 
-        this.db.connect()
+            this.db.connect()
+        }
     }
 
     static levelsystem_get_stats(member_id: string) {
-        return new Promise<userLevelStats>(resolve => {
+        return new Promise<userLevelStats>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
             this.db.query(`SELECT * FROM levelsystem ORDER BY xp DESC`, (error, results, fields) => {
                 if (error) throw error
                 
@@ -42,7 +46,9 @@ export default class Database {
     }
 
     static levelsystem_register(member_id: string) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
             this.db.query(`SELECT * FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
 
@@ -59,7 +65,9 @@ export default class Database {
     }
 
     static async levelsystem_add_xp(member_id: string) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
             this.db.query(`SELECT xp FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
 
@@ -79,7 +87,9 @@ export default class Database {
     }
 
     static levelsystem_level_up(member_id: string, message: Message) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+            
             this.db.query(`SELECT * FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
 
@@ -118,7 +128,9 @@ export default class Database {
     }
 
     static levelsystem_removexp(xp: number, level: number, member_id: string) {
-        return new Promise<void>(resolve => {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+            
             this.db.query(`UPDATE levelsystem SET xp = ${xp}, level = ${level} WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
             })

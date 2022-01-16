@@ -3,6 +3,7 @@ export interface DatabaseSettings {
     databaseName: string
     userName: string
     password: string
+    required: boolean
 }
 
 export interface BotSettings {
