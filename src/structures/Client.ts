@@ -8,7 +8,8 @@ const myIntents = new Intents()
 myIntents.add(
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_MESSAGES
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS
 )
 
 export class ExtendedClient extends Client {

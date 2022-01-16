@@ -12,6 +12,7 @@
     },
     "guild": {
         "id": "GUILD_ID",
-        "surveyChannelId": "CHANNEL_ID"
+        "surveyChannelId": "CHANNEL_ID",
+        "welcomeChannelId": "CHANNEL_ID"
     }
 }
