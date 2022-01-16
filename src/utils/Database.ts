@@ -1,6 +1,6 @@
 import mysql, { Connection } from "mysql"
 import { Message } from "discord.js"
-import { userLevelStats } from "../types/userStats"
+import { userLevelStats, userWarnStats } from "../types/userStats"
 import Config from "./Config";
 
 
@@ -19,6 +19,8 @@ export default class Database {
             this.db.connect()
         }
     }
+
+    // Levelsystem
 
     static levelsystem_get_stats(member_id: string) {
         return new Promise<userLevelStats>((resolve, reject) => {
@@ -136,6 +138,81 @@ export default class Database {
             })
             this.db.commit()
             resolve()
+        })
+    }
+
+    // Warnsystem
+    static warnsystem_register(member_id) {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT * FROM warnsystem WHERE id = ${member_id}`, (error, results, fields) => {
+                if (error) throw error
+
+                if (results.length === 0) {
+                    this.db.query(`INSERT warnsystem (id, warnlevel) VALUES (${member_id}, 0)`, (error, results, fields) => {
+                        if (error) throw error
+                    })
+                    this.db.commit()
+                }
+
+                resolve()
+            })
+        })
+    }
+
+    static warnsystem_add_warn(member_id) {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT warnlevel FROM warnsystem WHERE id = ${member_id}`, (error, results, fields) => {
+                if (error) throw error
+
+                if (results.length != 0) {
+                    const new_warnlevel: number = results[0].warnlevel + 1
+
+                    this.db.query(`UPDATE warnsystem SET warnlevel = ${new_warnlevel} WHERE id = ${member_id}`, (error, results, fields) => {
+                        if (error) throw error
+                    })
+                    this.db.commit()
+                }
+
+                resolve()
+            })
+        })
+    }
+
+    static warnsystem_get_stats(member_id) {
+        return new Promise<userWarnStats>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT warnlevel FROM warnsystem WHERE id = ${member_id}`, (error, results, fields) => {
+                if (error) throw error
+                
+                if (results.length != 0) {
+                    var warnlevel = results[0].warnlevel
+                    resolve({ warnlevel })
+                }
+
+                resolve(undefined)
+            })
+        })
+    }
+
+    static warnsystem_clear_warnlevel(member_id) {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT warnlevel FROM warnsystem WHERE id = ${member_id}`, (error, results, fields) => {
+                if (error) throw error
+                
+                if (results.length != 0) {
+                    this.db.query(`DELETE FROM warnsystem WHRE id = ${member_id}`)
+                    this.db.commit()
+                }
+                
+                resolve()
+            })
         })
     }
 }
