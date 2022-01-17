@@ -3,3 +3,5 @@ export type userLevelStats = {
     xp: number
     rank: number
 } | undefined
+
+export type userWarnStats = number

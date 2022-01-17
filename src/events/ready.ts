@@ -1,7 +1,6 @@
 import { Event } from "../structures/Event";
 import { client } from "../../main";
-
-const delay = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms))
+import delay from "../utils/delay";
 
 export default new Event("ready", async () => {
     console.log(`The client has been successfully logged in as user ${client.user.username}`)
