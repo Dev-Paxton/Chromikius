@@ -207,7 +207,7 @@ export default class Database {
                 if (error) throw error
                 
                 if (results.length != 0) {
-                    this.db.query(`DELETE FROM warnsystem WHRE id = ${member_id}`)
+                    this.db.query(`DELETE FROM warnsystem WHERE id = ${member_id}`)
                     this.db.commit()
                 }
                 

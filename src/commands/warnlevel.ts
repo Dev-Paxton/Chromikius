@@ -24,7 +24,7 @@ export default new Command({
             return
         }
 
-        var member = interaction.options.get("member").user
+        const member = interaction.options.get("member").user
 
         var warnlevel = await Database.warnsystem_get_stats(member.id)
 
