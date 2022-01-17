@@ -34,7 +34,12 @@ export default new Command({
             if (userName === user.username && userDiscriminator === user.discriminator) {
                 interaction.guild.members.unban(user)
                 interaction.reply(user.username + "#" + user.discriminator + " wurde entbannt")
-            }  
+            }
         })
+
+        const embed = new MessageEmbed()
+            .setColor("#fc030b")
+            .setTitle(`Für ${userName}#${userDiscriminator} wurde kein User gefunden`)
+        interaction.reply({ embeds: [embed], ephemeral: true })
     }
 })
