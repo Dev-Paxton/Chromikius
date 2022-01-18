@@ -1,4 +1,3 @@
-import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
@@ -14,15 +13,10 @@ export default new Command({
             }
         ],
     },
+    userPermissions: ["BAN_MEMBERS"],
+    botPermissions: ["BAN_MEMBERS"],
+    allowDm: false,
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
 
         await member.ban()

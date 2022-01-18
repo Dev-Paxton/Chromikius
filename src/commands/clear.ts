@@ -14,6 +14,9 @@ export default new Command({
             },
         ]
     },
+    userPermissions: ["MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+    botPermissions: ["MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+    allowDm: false,
     execute: async ({ interaction }) => {
         const inputInteger = interaction.options.get("anzahl")
 

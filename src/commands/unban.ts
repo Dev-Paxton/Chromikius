@@ -14,15 +14,10 @@ export default new Command({
             }
         ]
     },
+    userPermissions: ["BAN_MEMBERS"],
+    botPermissions: ["BAN_MEMBERS"],
+    allowDm: false,
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("BAN_MEMBERS")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const user = interaction.options.getString('username').split("#")
 
         const bannedUsers = await interaction.guild.bans.fetch()

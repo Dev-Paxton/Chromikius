@@ -15,15 +15,9 @@ export default new Command({
             }
         ],
     },
+    userPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS", "BAN_MEMBERS"],
+    botPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS", "BAN_MEMBERS"],
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("MANAGE_MESSAGES") || !interaction.member.permissions.has("KICK_MEMBERS") || !interaction.member.permissions.has("BAN_MEMBERS")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const member = interaction.options.get("member").user
 
         var warnlevel = await Database.warnsystem_get_stats(member.id)

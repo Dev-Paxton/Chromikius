@@ -21,16 +21,9 @@ export default new Command({
             },
         ],
     },
+    userPermissions: ["ADMINISTRATOR"],
     allowDm: false,
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("ADMINISTRATOR")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const member = interaction.options.get("member")
         const xpToBeRemoved = interaction.options.get("xp").value as number
 

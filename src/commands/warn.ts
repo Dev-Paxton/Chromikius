@@ -1,4 +1,4 @@
-import { GuildMember, Message, MessageEmbed } from "discord.js";
+import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
 import Config from "../utils/Config";
 import Database from "../utils/Database";
@@ -60,16 +60,10 @@ export default new Command({
             }
         ]
     },
+    userPermissions: ["MANAGE_ROLES", "KICK_MEMBERS", "BAN_MEMBERS"],
+    botPermissions: ["MANAGE_ROLES", "KICK_MEMBERS", "BAN_MEMBERS"],
     allowDm: false,
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("MANAGE_MESSAGES") || !interaction.member.permissions.has("KICK_MEMBERS") || !interaction.member.permissions.has("BAN_MEMBERS")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
         
         var reason = interaction.options.get("grund")
