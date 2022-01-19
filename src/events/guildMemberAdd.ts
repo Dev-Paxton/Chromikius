@@ -1,4 +1,4 @@
-import { GuildMember, MessageEmbed, TextChannel } from "discord.js";
+import { MessageEmbed, TextChannel } from "discord.js";
 import { Event } from "../structures/Event";
 import Config from "../utils/Config";
 

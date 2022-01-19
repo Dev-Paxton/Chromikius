@@ -1,4 +1,3 @@
-import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
 import Config from "../utils/Config";
 
@@ -15,15 +14,10 @@ export default new Command({
             }
         ]
     },
+    userPermissions: ["MANAGE_ROLES"],
+    botPermissions: ["MANAGE_ROLES"],
+    allowDm: false,
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("MANAGE_ROLES")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
         const muteRole = await interaction.guild.roles.fetch(Config.guild.muteRoleId)
 

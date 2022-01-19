@@ -1,4 +1,3 @@
-import { MessageEmbed } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
@@ -14,15 +13,10 @@ export default new Command({
             }
         ]
     },
+    userPermissions: ["KICK_MEMBERS"],
+    botPermissions: ["KICK_MEMBERS"],
+    allowDm: false,
     execute: async ({ interaction }) => {
-        if (!interaction.member.permissions.has("KICK_MEMBERS")) {
-            const embed = new MessageEmbed()
-                .setColor("#fc030b")
-                .setTitle("Dazu bist du nicht berechtigt")
-            await interaction.reply({ embeds: [embed], ephemeral: true })
-            return
-        }
-
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
         await member.kick()
         interaction.reply(member.user.username + "#" + member.user.discriminator + " wurde gekickt")
