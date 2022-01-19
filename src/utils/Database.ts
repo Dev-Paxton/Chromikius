@@ -57,11 +57,13 @@ export default class Database {
                 if (results.length === 0) {
                     this.db.query(`INSERT levelsystem (id, level, xp) VALUES (${member_id}, 1, 0)`, (error, results, fields) => {
                         if (error) throw error
+                    
+                        this.db.commit()
+                        resolve()
                     })
-                    this.db.commit()
+                } else {
+                    resolve()
                 }
-
-                resolve()
             })
         })
     }
@@ -73,19 +75,16 @@ export default class Database {
             this.db.query(`SELECT xp FROM levelsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
 
-                if (results.length != 0) {
-                    const new_xp: number = results[0].xp + 1
+                const new_xp: number = results[0].xp + 1
 
-                    this.db.query(`UPDATE levelsystem SET xp = ${new_xp} WHERE id = ${member_id}`, (error, results, fields) => {
-                        if (error) throw error
-                    })
+                this.db.query(`UPDATE levelsystem SET xp = ${new_xp} WHERE id = ${member_id}`, (error, results, fields) => {
+                    if (error) throw error
+
                     this.db.commit()
-                }
-
-                resolve()
+                    resolve()
+                })
             })
         })
-        
     }
 
     static levelsystem_level_up(member_id: string, message: Message) {
@@ -109,6 +108,7 @@ export default class Database {
                             
                             this.db.commit()
                             message.react("<:LevelUp:726876303319367751>")
+                            resolve()
                         }
                     } else {
                         if (xp > 2) {
@@ -117,13 +117,13 @@ export default class Database {
                             this.db.query(`UPDATE levelsystem set level = ${new_level} WHERE id = ${member_id}`, (error, results, fields) => {
                                 if (error) throw error
                             })
+                            
                             this.db.commit()
                             message.react("<:LevelUp:726876303319367751>")
+                            resolve()
                         }
                     }
                 }
-
-                resolve()
             })
         })
         
@@ -135,9 +135,10 @@ export default class Database {
             
             this.db.query(`UPDATE levelsystem SET xp = ${xp}, level = ${level} WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
+                
+                this.db.commit()
+                resolve()
             })
-            this.db.commit()
-            resolve()
         })
     }
 
@@ -153,10 +154,10 @@ export default class Database {
                     this.db.query(`INSERT warnsystem (id, warnlevel) VALUES (${member_id}, 0)`, (error, results, fields) => {
                         if (error) throw error
                     })
-                    this.db.commit()
-                }
 
-                resolve()
+                    this.db.commit()
+                    resolve()
+                }
             })
         })
     }
@@ -168,15 +169,13 @@ export default class Database {
             this.db.query(`SELECT warnlevel FROM warnsystem WHERE id = ${member_id}`, (error, results, fields) => {
                 if (error) throw error
 
-                if (results.length != 0) {
-                    const new_warnlevel: number = results[0].warnlevel + 1
+                const new_warnlevel: number = results[0].warnlevel + 1
 
-                    this.db.query(`UPDATE warnsystem SET warnlevel = ${new_warnlevel} WHERE id = ${member_id}`, (error, results, fields) => {
-                        if (error) throw error
-                    })
-                    this.db.commit()
-                }
-
+                this.db.query(`UPDATE warnsystem SET warnlevel = ${new_warnlevel} WHERE id = ${member_id}`, (error, results, fields) => {
+                    if (error) throw error
+                })
+                
+                this.db.commit()
                 resolve()
             })
         })
@@ -203,16 +202,42 @@ export default class Database {
         return new Promise<void>((resolve, reject) => {
             if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
 
-            this.db.query(`SELECT warnlevel FROM warnsystem WHERE id = ${member_id}`, (error, results, fields) => {
+            this.db.query(`DELETE FROM warnsystem WHERE id = ${member_id}`)
+            this.db.commit()
+            resolve()
+        })
+    }
+
+    // Selfroles
+    static selfrole_add(channelId: string, messageId: string, emoji: string) {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT id FROM selfroles`, (error, results, fields) => {
                 if (error) throw error
-                
-                if (results.length != 0) {
-                    this.db.query(`DELETE FROM warnsystem WHERE id = ${member_id}`)
-                    this.db.commit()
+
+                var id = 0
+                while (results.includes(id)) {
+                    id++
                 }
+
+                this.db.query(`INSERT INTO selfroles (id, channelId, messageId, emoji) VALUES (${id}, ${channelId}, ${messageId}, ${emoji})`, (error, results, fields) => {
+                    if (error) throw error
+                })
                 
+                this.db.commit()
                 resolve()
             })
+        })
+    }
+
+    static selfrole_remove(id: number) {
+        return new Promise<void>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`DELETE FROM selfroles WHERE id = ${id}`)
+            this.db.commit()
+            resolve()
         })
     }
 }
