@@ -5,26 +5,28 @@ import { CommandType } from "../types/commandType"
 export default async function checkPermissions(command: CommandType, interaction: CommandInteraction) {
     if (!command.userPermissions && !command.botPermissions) return
 
-    command.botPermissions.push("SEND_MESSAGES", "EMBED_LINKS", "ADD_REACTIONS")
-
     const guildMember = await interaction.guild.members.fetch(interaction.user.id)
     const guildBot = await interaction.guild.members.fetch(client.user.id)
 
     var requiredUserPermissions = []
     var requiredBotPermissions = []
+
+    if (command.userPermissions) {
+        command.userPermissions.forEach(async (permission) => {
+            if (!guildMember.permissions.has(permission)) {
+                requiredUserPermissions.push(permission)
+            }
+        })
+    }
+
+    if (command.botPermissions) {
+        command.botPermissions.forEach(async (permission) => {
+            if (!guildBot.permissions.has(permission)) {
+                requiredBotPermissions.push(permission)
+            }
+        })
+    }
     
-    command.userPermissions.forEach(async (permission) => {
-        if (!guildMember.permissions.has(permission)) {
-            requiredUserPermissions.push(permission)
-        }
-    })
-
-    command.botPermissions.forEach(async (permission) => {
-        if (!guildBot.permissions.has(permission)) {
-            requiredBotPermissions.push(permission)
-        }
-    })
-
     if (requiredBotPermissions.length != 0 || requiredUserPermissions.length != 0) {
         const embed = new MessageEmbed().setColor("#fc030b")
 

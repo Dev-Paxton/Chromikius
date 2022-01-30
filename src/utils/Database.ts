@@ -13,7 +13,8 @@ export default class Database {
                 host: Config.database.host,
                 user: Config.database.userName,
                 password: Config.database.password,
-                database: Config.database.databaseName
+                database: Config.database.databaseName,
+                charset: "utf8mb4"
             })
 
             this.db.connect()
@@ -209,24 +210,25 @@ export default class Database {
     }
 
     // Selfroles
-    static selfrole_add(channelId: string, messageId: string, emoji: string) {
-        return new Promise<void>((resolve, reject) => {
+    static selfrole_add(emoji: string, roleId: string, channelId: string, messageId: string) {
+        return new Promise((resolve, reject) => {
             if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
 
             this.db.query(`SELECT id FROM selfroles`, (error, results, fields) => {
                 if (error) throw error
 
-                var id = 0
-                while (results.includes(id)) {
-                    id++
+                var id = Date.now().toString()
+
+                while (id.length < 20) {
+                    id += Math.floor(Math.random() * 10)
                 }
 
-                this.db.query(`INSERT INTO selfroles (id, channelId, messageId, emoji) VALUES (${id}, ${channelId}, ${messageId}, ${emoji})`, (error, results, fields) => {
+                this.db.query(`INSERT INTO selfroles (id, emoji, roleId, channelId, messageId) VALUES (${id}, '${emoji}', ${roleId}, ${channelId}, ${messageId})`, (error, results, fields) => {
                     if (error) throw error
                 })
                 
                 this.db.commit()
-                resolve()
+                resolve(id)
             })
         })
     }
