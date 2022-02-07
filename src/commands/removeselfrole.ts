@@ -1,6 +1,7 @@
 import { MessageEmbed, User } from "discord.js";
 import { Command } from "../structures/Command";
 import { selfroleStats } from "../types/stats";
+import { cacheMessages } from "../utils/cacheSelfroleMessages";
 import Database from "../utils/Database";
 import { create } from "../utils/selfrolesEmbedCreator";
 
@@ -23,7 +24,8 @@ export default new Command({
 
         if (selfroleId) {
             const selfrole = await Database.selfrole_remove(selfroleId.value as string, false) as selfroleStats
-            
+            await cacheMessages()
+
             const embed = new MessageEmbed()
                 .setColor("#fc030b")
 
@@ -102,14 +104,18 @@ export default new Command({
                         const answer = collected.first()
                         
                         if (answer.emoji.name === "❌") return
-                        Database.selfrole_remove(emojiNames[reaction.emoji.name], true)
+                        await Database.selfrole_remove(emojiNames[reaction.emoji.name], true)
+                        cacheMessages()
 
                         const embed = new MessageEmbed()
                             .setColor("#fc030b")
                             .setTitle("Alle Selfroles wurden gelöscht")
+                        interaction.channel.send({ embeds: [embed] })
                     })
                 } else {
                     const selfrole = await Database.selfrole_remove(emojiNames[reaction.emoji.name], true) as selfroleStats
+                    cacheMessages()
+                    
                     const embed = new MessageEmbed()
                         .setColor("#fc030b")
                         .setTitle("Selfrole `#" + selfrole.id + "` wurde gelöscht")

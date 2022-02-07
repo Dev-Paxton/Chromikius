@@ -287,4 +287,20 @@ export default class Database {
             })
         })
     }
+
+    static selfrole_getAllByEmoji(emoji: string) {
+        return new Promise<Array<selfroleStats>>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT * FROM selfroles WHERE emoji = '${emoji}'`, (error, results, fields) => {
+                if (error) throw error
+                
+                if (results.length != 0) {
+                    resolve(results)
+                } else {
+                    resolve(undefined)
+                }
+            })
+        })
+    }
 }

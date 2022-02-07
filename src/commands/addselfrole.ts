@@ -1,6 +1,7 @@
 import c from "config";
 import { DiscordAPIError, Message, MessageEmbed, TextChannel } from "discord.js";
 import { Command } from "../structures/Command";
+import { cacheMessages } from "../utils/cacheSelfroleMessages";
 import Database from "../utils/Database";
 
 export default new Command({
@@ -78,6 +79,7 @@ export default new Command({
         })
 
         const id = await Database.selfrole_add(emoji, role.id, channel.id, messageId)
+        cacheMessages()
 
         const embed = new MessageEmbed()
             .setColor("#03ff46")
