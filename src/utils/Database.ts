@@ -1,6 +1,6 @@
 import mysql, { Connection } from "mysql"
 import { Message } from "discord.js"
-import { userLevelStats, userWarnStats } from "../types/userStats"
+import { selfroleStats, userLevelStats, userWarnStats } from "../types/stats"
 import Config from "./Config";
 
 
@@ -233,13 +233,58 @@ export default class Database {
         })
     }
 
-    static selfrole_remove(id: number) {
-        return new Promise<void>((resolve, reject) => {
+    static selfrole_remove(id: number | string, reaction: boolean) {
+        return new Promise<selfroleStats | void>(async (resolve, reject) => {
             if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
 
-            this.db.query(`DELETE FROM selfroles WHERE id = ${id}`)
-            this.db.commit()
-            resolve()
+            if (reaction) {
+                if (id === "all") {
+                    this.db.query("DELETE FROM selfroles")
+                    this.db.commit()
+                    resolve()
+                } else {
+                    const selfrole = (await this.selfrole_getAll())[id] as selfroleStats
+                    this.db.query(`DELETE FROM selfroles WHERE id = ${selfrole.id}`)
+                    this.db.commit()
+                    resolve(selfrole)
+                }
+            } else {
+                const selfrole = (await this.selfrole_getOne(id as string)) as selfroleStats
+                
+                if (selfrole) {
+                    this.db.query(`DELETE FROM selfroles WHERE id = ${id}`)
+                    this.db.commit()
+                }
+
+                resolve(selfrole)
+            }
+        })
+    }
+
+    static selfrole_getAll() {
+        return new Promise<Array<selfroleStats> >((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query("SELECT * FROM selfroles", (error, results, fields) => {
+                if (error) throw error
+                resolve(results)
+            })
+        })
+    }
+
+    static selfrole_getOne(id: string) {
+        return new Promise<selfroleStats>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT * FROM selfroles WHERE id = ${id}`, (error, results, fields) => {
+                if (error) throw error
+                
+                if (results.length != 0) {
+                    resolve(results[0])
+                } else {
+                    resolve(undefined)
+                }
+            })
         })
     }
 }

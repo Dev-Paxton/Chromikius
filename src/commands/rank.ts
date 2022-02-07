@@ -1,7 +1,7 @@
 import { MessageEmbed } from "discord.js"
 import sharp from "sharp"
 import { Command } from "../structures/Command"
-import { userLevelStats } from "../types/userStats"
+import { userLevelStats } from "../types/stats"
 import fetch from "node-fetch"
 import fs from "fs"
 import Database from "../utils/Database"
