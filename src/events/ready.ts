@@ -7,7 +7,7 @@ export default new Event("ready", async () => {
     console.log(`The client has been successfully logged in as user ${client.user.username}`)
 
     // Cache Selfrole messages
-    cacheMessages()
+    cacheMessages(client)
 
     // Status loop
     const messages = ["/help", "Subscribe to Kevin Chromik :)", "By L3g3nd#0056"]

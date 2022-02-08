@@ -1,4 +1,3 @@
-import c from "config";
 import { DiscordAPIError, Message, MessageEmbed, TextChannel } from "discord.js";
 import { Command } from "../structures/Command";
 import { cacheMessages } from "../utils/cacheSelfroleMessages";
@@ -37,7 +36,7 @@ export default new Command({
     },
     userPermissions: ["ADMINISTRATOR"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async ({ client, interaction }) => {
         const emoji = String(interaction.options.get("emoji").value)
         const role = interaction.options.get("role").role
         const channel = interaction.options.get("channel").channel as TextChannel
@@ -79,7 +78,7 @@ export default new Command({
         })
 
         const id = await Database.selfrole_add(emoji, role.id, channel.id, messageId)
-        cacheMessages()
+        cacheMessages(client)
 
         const embed = new MessageEmbed()
             .setColor("#03ff46")

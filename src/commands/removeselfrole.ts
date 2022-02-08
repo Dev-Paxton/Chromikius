@@ -19,12 +19,12 @@ export default new Command({
     },
     userPermissions: ["ADMINISTRATOR"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async ({ client, interaction }) => {
         const selfroleId = interaction.options.get("id")
 
         if (selfroleId) {
             const selfrole = await Database.selfrole_remove(selfroleId.value as string, false) as selfroleStats
-            await cacheMessages()
+            cacheMessages(client)
 
             const embed = new MessageEmbed()
                 .setColor("#fc030b")
@@ -105,7 +105,7 @@ export default new Command({
                         
                         if (answer.emoji.name === "❌") return
                         await Database.selfrole_remove(emojiNames[reaction.emoji.name], true)
-                        cacheMessages()
+                        cacheMessages(client)
 
                         const embed = new MessageEmbed()
                             .setColor("#fc030b")
@@ -114,7 +114,7 @@ export default new Command({
                     })
                 } else {
                     const selfrole = await Database.selfrole_remove(emojiNames[reaction.emoji.name], true) as selfroleStats
-                    cacheMessages()
+                    cacheMessages(client)
                     
                     const embed = new MessageEmbed()
                         .setColor("#fc030b")
