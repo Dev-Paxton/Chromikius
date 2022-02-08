@@ -214,22 +214,18 @@ export default class Database {
         return new Promise((resolve, reject) => {
             if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
 
-            this.db.query(`SELECT id FROM selfroles`, (error, results, fields) => {
+            var id = Date.now().toString()
+
+            while (id.length < 20) {
+                id += Math.floor(Math.random() * 10)
+            }
+
+            this.db.query(`INSERT INTO selfroles (id, emoji, roleId, channelId, messageId) VALUES (${id}, '${emoji}', ${roleId}, ${channelId}, ${messageId})`, (error, results, fields) => {
                 if (error) throw error
-
-                var id = Date.now().toString()
-
-                while (id.length < 20) {
-                    id += Math.floor(Math.random() * 10)
-                }
-
-                this.db.query(`INSERT INTO selfroles (id, emoji, roleId, channelId, messageId) VALUES (${id}, '${emoji}', ${roleId}, ${channelId}, ${messageId})`, (error, results, fields) => {
-                    if (error) throw error
-                })
-                
-                this.db.commit()
-                resolve(id)
             })
+            
+            this.db.commit()
+            resolve(id)
         })
     }
 
