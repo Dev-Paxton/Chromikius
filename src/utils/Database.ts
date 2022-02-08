@@ -299,4 +299,64 @@ export default class Database {
             })
         })
     }
+
+    // Enable / Disable Commands
+    static enableCommand(commandName) {
+        return new Promise<true | false>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT * FROM deactivatedCommands WHERE name = '${commandName}'`, (error, results, fields) => {
+                if (error) throw error
+
+                if (results.length != 0) {
+                    this.db.query(`DELETE FROM deactivatedCommands WHERE name = '${commandName}'`)
+                    this.db.commit()
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            })
+        })
+    }
+
+    static disableCommand(commandName) {
+        return new Promise<true | false>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query(`SELECT * FROM deactivatedCommands WHERE name = '${commandName}'`, (error, results, fields) => {
+                if (error) throw error
+
+                
+                if (results.length === 0) {
+                    this.db.query(`INSERT INTO deactivatedCommands (name) VALUES ('${commandName}')`)
+                    this.db.commit()
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            })
+        })
+    }
+
+    static getDisabledCommands() {
+        return new Promise<Array<string> | undefined>((resolve, reject) => {
+            if (!Config.database.required) reject(new Error("Although the database is disabled, a connection was required"))
+
+            this.db.query("SELECT * FROM deactivatedCommands", (error, results, fields) => {
+                if (error) throw error
+
+                if (results.length != 0) {
+                    const disabledCommands = []
+
+                    for (var command of results) {
+                        disabledCommands.push(command.name)
+                    }
+
+                    resolve(disabledCommands)
+                } else {
+                    resolve(undefined)
+                }
+            })
+        })
+    }
 }
