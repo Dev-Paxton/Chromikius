@@ -2,6 +2,7 @@ import { CommandInteractionOptionResolver } from "discord.js";
 import { client } from "../../main";
 import { Event } from "../structures/Event"
 import { ExtendedInteraction } from "../types/commandType"
+import CommandStatus from "../utils/CommandStatus";
 import checkPermissions from "../utils/permissionHandler";
 
 export default new Event("interactionCreate", async (interaction) => {
@@ -12,6 +13,8 @@ export default new Event("interactionCreate", async (interaction) => {
     if (!command) return
 
     if (await checkPermissions(command, interaction)) return
+    
+    if (CommandStatus.checkStatus(command.data.name, interaction)) return
 
     try {
         command.execute({

@@ -50,9 +50,12 @@ export default new Command({
             .setThumbnail(member.avatarURL())
             .addField("Name", member.username + "#" + member.discriminator, true)
             .addField("ID", String(member.id), true)
-            .addField("Rollen", roles, true)
             .addField("Serverbeitritt", joinedAt, true)
             .addField("Booster seit", premiumSice, true)
+
+        if (roles != "") {
+            embed.addField("Rollen", roles, true)
+        }
 
         await interaction.reply({ embeds: [embed], ephemeral: true })
     }
