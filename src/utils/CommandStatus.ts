@@ -1,6 +1,4 @@
-import { Embed } from "@discordjs/builders"
-import { CommandInteraction, Interaction, MessageEmbed } from "discord.js"
-import { ExtendedInteraction } from "../types/commandType"
+import { CommandInteraction, MessageEmbed } from "discord.js"
 import Config from "./Config"
 import Database from "./Database"
 

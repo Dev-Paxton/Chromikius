@@ -1,6 +1,4 @@
-import { client } from "../../main"
 import { Event } from "../structures/Event"
-import Config from "../utils/Config"
 import Database from "../utils/Database"
 
 export default new Event("messageReactionAdd", async (reaction, user) => {

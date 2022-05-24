@@ -1,4 +1,4 @@
-import { DiscordAPIError, Message, MessageEmbed, TextChannel } from "discord.js";
+import { Message, MessageEmbed, TextChannel } from "discord.js";
 import { Command } from "../structures/Command";
 import { cacheMessages } from "../utils/cacheSelfroleMessages";
 import Database from "../utils/Database";

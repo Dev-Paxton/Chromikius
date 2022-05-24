@@ -1,7 +1,6 @@
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import fs from "fs"
-import CommandStatus from "./src/utils/CommandStatus"
 import Config from "./src/utils/Config"
 
 Config.loadConfig()
