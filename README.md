@@ -6,7 +6,7 @@
 <p>
 <a href="https://discord.gg/S6Nghbup6p"><img alt="Discord" src="https://img.shields.io/discord/719561097404874813?label=Discord&logo=Discord"><a>
 
-<img src=https://img.shields.io/badge/Version-1.0.0-red>
+<img src=https://img.shields.io/badge/Version-1.12.1-red>
 <p>
 </div>
 
@@ -18,9 +18,6 @@
 
 ## About
 Chromikius ist ein Bot auf [Kevin Chromiks](https://www.youtube.com/c/KevinChromik) [Discord Server] und bietet nützliche Funktionen für seine Community. <br>
-<br>
-Der Bot wird derzeit in Typescript neu gecoded, da [discord.py](https://github.com/Rapptz/discord.py) nicht mehr weiterentwickelt wird. Falls du helfen willst kannst du dir [hier](https://github.com/DevGoro/old-chromikius) den alten Code anschauen. <br>
-Falls du dich als Tester zur Verfügung stellen willst, kannst du das bei mir (L3g3nd#0056) auf Discord machen.
 
 <br>
 
