@@ -1,12 +1,13 @@
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import fs from "fs"
+import CommandStatus from "./src/utils/CommandStatus"
 import Config from "./src/utils/Config"
 
 Config.loadConfig()
 
 async function deployCommands() {
-  const allCommands = []
+  const guildCommands = []
   const dmCommands = []
 
   const commandFiles = []
@@ -15,13 +16,17 @@ async function deployCommands() {
 
   for (const file of commandFiles) {
     const command = await import(`${__dirname}/src/commands/${file}`)
-	  allCommands.push(command.default.data)
+
+    if (command.default.allowDm === true || command.default.allowDm === undefined) {
+      dmCommands.push(command.default.data)
+    }
   }
 
   for (const file of commandFiles) {
     const command = await import(`${__dirname}/src/commands/${file}`)
-    if (command.default.allowDm === true || command.default.allowDm === undefined) {
-      dmCommands.push(command.default.data)
+    
+    if (!dmCommands.includes(command.default.data)) {
+      guildCommands.push(command.default.data)
     }
   }
 
@@ -38,7 +43,7 @@ async function deployCommands() {
 
       await rest.put(
         Routes.applicationGuildCommands(Config.bot.id, Config.guild.id),
-        { body: allCommands },
+        { body: guildCommands },
       )
 
       console.log('Successfully reloaded application (/) commands.')

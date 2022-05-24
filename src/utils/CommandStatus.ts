@@ -1,16 +1,19 @@
 import { Embed } from "@discordjs/builders"
 import { CommandInteraction, Interaction, MessageEmbed } from "discord.js"
 import { ExtendedInteraction } from "../types/commandType"
+import Config from "./Config"
 import Database from "./Database"
 
 export default class CommandStatus {
     private static disabledCommands: Array<string> = []
 
     static async loadDisabledCommands() {
-        const disabledCommands = await Database.getDisabledCommands()
+        if (Config.database.required) {
+            const disabledCommands = await Database.getDisabledCommands()
 
-        if (disabledCommands != undefined) {
-            this.disabledCommands = disabledCommands
+            if (disabledCommands != undefined) {
+                this.disabledCommands = disabledCommands
+            }
         }
     }
 
