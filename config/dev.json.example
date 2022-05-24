@@ -1,0 +1,20 @@
+{
+    "database": {
+        "host": "HOST",
+        "userName": "USERNAME",
+        "password": "PASSWORD",
+        "databaseName": "DATABASE_NAME",
+        "required": true | false
+    },
+    "bot": {
+        "id": "BOT_ID",
+        "token": "TOKEN"
+    },
+    "guild": {
+        "id": "GUILD_ID",
+        "surveyChannelId": "CHANNEL_ID",
+        "welcomeChannelId": "CHANNEL_ID",
+        "memberRoleId": "ROLE_ID",
+        "muteRoleId": "ROLE_ID"
+    }
+}

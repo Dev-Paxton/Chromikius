@@ -2,21 +2,14 @@ import { Client, ClientEvents, Collection, Intents } from "discord.js";
 import { CommandType } from "../types/commandType";
 import fs from "fs"
 import { Event } from "./Event";
-import dotenv from "dotenv"
-
-dotenv.config()
-
-if (process.env.enviroment === "dev") {
-    console.log("DEV")
-    var botToken: string = process.env.DEV_BOT_TOKEN
-  } else {
-    var botToken: string = process.env.BOT_TOKEN
-  }
+import Config from "../utils/Config";
 
 const myIntents = new Intents()
 myIntents.add(
     Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS
+    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS
 )
 
 export class ExtendedClient extends Client {
@@ -28,7 +21,7 @@ export class ExtendedClient extends Client {
 
     start() {
         this.registerModules()
-        this.login(botToken)
+        this.login(Config.bot.token)
     }
 
     async registerModules() {
@@ -38,8 +31,8 @@ export class ExtendedClient extends Client {
         commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/../commands`).filter(file => file.endsWith('.js')))
 
         for (const file of commandFiles) {
-            const command: CommandType = (await import(`../commands/${file}`)).default
-            this.commands.set(command.name, command)
+            const command: CommandType = (await import(`${__dirname}/../commands/${file}`)).default
+            this.commands.set(command.data.name, command)
         }
 
         //Events
@@ -48,7 +41,7 @@ export class ExtendedClient extends Client {
         eventFiles.push.apply(eventFiles, fs.readdirSync(`${__dirname}/../events`).filter(file => file.endsWith('.js')))
 
         for (const file of eventFiles) {
-            const event: Event<keyof ClientEvents> = (await import(`../events/${file}`)).default
+            const event: Event<keyof ClientEvents> = (await import(`${__dirname}/../events/${file}`)).default
             this.on(event.event, event.execute)
         }
     }

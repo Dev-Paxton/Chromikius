@@ -1,43 +1,55 @@
 import { REST } from "@discordjs/rest"
 import { Routes } from "discord-api-types/v9"
 import fs from "fs"
-import dotenv from "dotenv"
+import Config from "./src/utils/Config"
 
-dotenv.config()
+Config.loadConfig()
 
-if (process.env.enviroment === "dev") {
-  console.log("DEV")
-  var botToken: string = process.env.DEV_BOT_TOKEN
-  var botId: string = process.env.DEV_BOT_ID
-} else {
-  var botToken: string = process.env.BOT_TOKEN
-  var botId: string = process.env.BOT_ID
-}
+async function deployCommands() {
+  const guildCommands = []
+  const dmCommands = []
 
-const commands = []
-const commandFiles = []
-commandFiles.push.apply(commandFiles, fs.readdirSync(`./src/commands`).filter(file => file.endsWith('.ts')))
-commandFiles.push.apply(commandFiles, fs.readdirSync(`./src/commands`).filter(file => file.endsWith('.js')))
+  const commandFiles = []
+  commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/src/commands`).filter(file => file.endsWith('.ts')))
+  commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/src/commands`).filter(file => file.endsWith('.js')))
 
+  for (const file of commandFiles) {
+    const command = await import(`${__dirname}/src/commands/${file}`)
 
-for (const file of commandFiles) {
-  const command = require(`./src/commands/${file}`)
-	commands.push(command.default)
-}
-
-const rest = new REST({ version: '9' }).setToken(botToken);
-
-(async () => {
-  try {
-    console.log('Started refreshing application (/) commands.')
-
-    await rest.put(
-      Routes.applicationCommands(botId),
-      { body: commands },
-    )
-
-    console.log('Successfully reloaded application (/) commands.')
-  } catch (error) {
-    console.error(error)
+    if (command.default.allowDm === true || command.default.allowDm === undefined) {
+      dmCommands.push(command.default.data)
+    }
   }
-})()
+
+  for (const file of commandFiles) {
+    const command = await import(`${__dirname}/src/commands/${file}`)
+    
+    if (!dmCommands.includes(command.default.data)) {
+      guildCommands.push(command.default.data)
+    }
+  }
+
+  const rest = new REST({ version: '9' }).setToken(Config.bot.token);
+
+  (async () => {
+    try {
+      console.log('Started refreshing application (/) commands.')
+
+      await rest.put(
+        Routes.applicationCommands(Config.bot.id),
+        { body: dmCommands },
+      )
+
+      await rest.put(
+        Routes.applicationGuildCommands(Config.bot.id, Config.guild.id),
+        { body: guildCommands },
+      )
+
+      console.log('Successfully reloaded application (/) commands.')
+    } catch (error) {
+      console.error(error)
+    }
+  })()
+}
+
+deployCommands()

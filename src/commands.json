@@ -3,9 +3,10 @@
     "serverinfo": "Zeigt Informationen über den Server",
     "userinfo [member]": "Zeigt Informationen über einen User an",
     "youtube": "Kevin Chromiks YouTube Kanal",
-    "github": "Kevin Chromiks GitHub Account",
+    "github": "Link zu Kevin Chromiks GitHub Profile",
     "setup": "Kevin Chromiks Setup",
-    "help [command]": "Erklärt Commands"
+    "help [command]": "Erklärt Commands",
+    "ping": "Antwortet mit der Latenz"
   },
   "level_cmds": {
     "rank [member]": "Zeigt Level des Users an",
