@@ -17,6 +17,7 @@ export default new Command({
     },
     userPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS", "BAN_MEMBERS"],
     botPermissions: ["MANAGE_MESSAGES", "KICK_MEMBERS", "BAN_MEMBERS"],
+    allowDm: false,
     execute: async ({ interaction }) => {
         const member = interaction.options.get("member").user
 
