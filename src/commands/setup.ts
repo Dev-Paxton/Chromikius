@@ -10,21 +10,27 @@ export default new Command({
         const embed = new MessageEmbed()
             .setColor("#ff9e00")
             .setTitle("Kevin Chromik's Setup")
-            .setDescription(`- Hauptmonitor: [AOC U2777PQU](https://amzn.to/3acq5WH)\n
-                            - Zweitmonitor: [Acer Nitro XV242YP](https://amzn.to/3cir0rf)\n
-                            - Maus: [Logitech MX Master 2S](https://amzn.to/39mKx85)\n
-                            - [Apple Magic Trackpad 2](https://amzn.to/36mITS1)\n
-                            - Tastatur: [Keychron K1 RGB Brown Switches](https://bit.ly/3aanCMt)\n
-                            - Monitorhalterung: [ErGear](https://amzn.to/2YlpexB)\n
-                            - Schreibtischlampe: [Tomons](https://amzn.to/36nB9zk)\n
-                            - Monitorlampe: [BenQ ScreenBar Plus](https://amzn.to/2L0lePY)\n
-                            - Mauspad: [Sidorenko XXL](https://amzn.to/39qzs67)\n
-                            - [MacBook Pro 16 32GB RAM](https://amzn.to/3ahRuXw)\n
-                            - Docking Station: [i-tec Thunderbolt 3](https://amzn.to/39rbwj6)\n
-                            - Kamera: [Sony A6300](https://amzn.to/3pvt0jC)\n
-                            - Objektiv: [Sigma 16mm f1.4](https://amzn.to/3pshPIF)\n
-                            - Videolampe: [Godox SL-60W](https://amzn.to/39oQBgd)\n
-                            - Elektronisches Notizbuch: [reMarkable 2](https://remarkable.com/store/remarkable-2)\n`)
+            .setDescription(`- [Bürostuhl](https://bit.ly/3ae0i4c)
+                            - [BenQ ScreenBar Halo](https://amzn.to/3lmdm9V)
+                            - [BenQ PD3420Q](https://amzn.to/3abDTEE)
+                            - [Apple Magic Trackpad 2](https://amzn.to/36mITS1)
+                            - [Mikrofon](https://amzn.to/3wq50V0)
+                            - [Mikrofonarm](https://amzn.to/3wIGiOS)
+                            - [Hauptkamera](https://amzn.to/39AvHgF)
+                            - [Lieblingsobjektiv](https://amzn.to/3lq1XWx)
+                            - [Zweitkamera](https://amzn.to/3lrmbPY)
+                            - [Elgato Stream Deck](https://amzn.to/3wDFkDb)
+                            - [Elgato Cam Link](https://amzn.to/3G6NGYr)
+                            - [Elgato Key Light](https://amzn.to/3lrzKi4)
+                            - [Maus](https://amzn.to/38Dma8D)
+                            - [Tastatur](https://bit.ly/3wrUw7L)
+                            - [Laptop](https://amzn.to/3lq2Cr8)
+                            - [GoXLR MINI](https://amzn.to/3lnieeP)
+                            - [RGB Licht](https://amzn.to/3LnHZWZ)
+                            - [Kamerahalterung](https://amzn.to/3MwFbIx)
+                            - [Laptop Standfuß](https://amzn.to/3NnAP6x)
+                            - [Apple Magic Trackpad 2](https://amzn.to/36mITS1)
+                            - [Elektronisches Notizbuch: reMarkable 2](https://remarkable.com/store/remarkable-2)`)
 
         await interaction.reply({ embeds: [embed], ephemeral: true })
     }

@@ -5,6 +5,7 @@ import { userLevelStats } from "../types/stats"
 import fetch from "node-fetch"
 import fs from "fs"
 import Database from "../utils/Database"
+import { getUserAvatar } from "../utils/getUserAvatar"
 
 async function getSvgBuffer(text: string | number, x:number, y:number) {
     y += 35
@@ -78,10 +79,7 @@ export default new Command({
         const fileNameAvatar = member.id + "Avatar.png"
         const fileNameCard = member.id + "Card.png"
 
-        const response = await fetch(member.avatarURL())
-        const buffer = await response.buffer()
-
-        sharp(buffer)
+        sharp(await getUserAvatar(member))
         .resize({ width: 200, height: 200 })
         .extend({top: 10, right: 10, bottom: 10, left: 10, background: "black"})
         .png()
