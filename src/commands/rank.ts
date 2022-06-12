@@ -89,8 +89,11 @@ export default new Command({
             if (stats.xp === 0) {
                 var progressBar = "--------------------"
             } else if (stats.xp === 1) {
-                var progressBar = "[][][][][][][][][][]----------"
-            } else if (stats.level != 1) {
+                var progressBar = "[][][][][]----------"
+            } else if (stats.xp === 2) {
+                var progressBar = "[][][][][][][][][][]"
+            }
+            else /*if (stats.level != 1)*/ {
                 const levelUp = stats.level * stats.level
                 const currentLevelUp = (stats.level - 1) * (stats.level - 1)
                 const requiredXpInPercent = 100 / (levelUp - currentLevelUp) * (stats.xp - currentLevelUp)
