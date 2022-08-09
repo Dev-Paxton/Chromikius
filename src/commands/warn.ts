@@ -1,28 +1,28 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 import Config from "../utils/Config";
 import Database from "../utils/Database";
 import delay from "../utils/delay";
 
 function createPrivateWarnembed(adminName, guildName, warnlevel, reason, minutes) {
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setColor("#ff9e00")
         .setTitle(`Du wurdest von ${adminName} auf ${guildName} verwarnd`)
 
     if (warnlevel <= 3) {
-        embed.addField("Strafe:", `${minutes} min. mute`)
+        embed.addFields({ name: "Strafe:", value: `${minutes} min. mute` })
     }
 
     if (warnlevel === 4) {
-        embed.addField("Strafe:", "Kick")
+        embed.addFields({ name: "Strafe:", value: "Kick" })
     }
 
     if (warnlevel === 5) {
-        embed.addField("Strafe:", "Bann")
+        embed.addFields({ name: "Strafe:", value: "Bann" })
     }
 
     if (reason) {
-        embed.addField("Grund:", reason)
+        embed.addFields({ name: "Grund:", value: reason })
     }
 
     return embed
@@ -39,7 +39,7 @@ function createWarnembed(memberName, warnlevel, penance, minutes=null) {
         title += "gebannt"
     }
 
-    return new MessageEmbed().setColor("#ff9e00").setTitle(title)
+    return new EmbedBuilder().setColor("#ff9e00").setTitle(title)
 }
 
 export default new Command({
@@ -60,8 +60,8 @@ export default new Command({
             }
         ]
     },
-    userPermissions: ["MANAGE_ROLES", "KICK_MEMBERS", "BAN_MEMBERS"],
-    botPermissions: ["MANAGE_ROLES", "KICK_MEMBERS", "BAN_MEMBERS"],
+    userPermissions: ["ManageRoles", "KickMembers", "BanMembers"],
+    botPermissions: ["ManageRoles", "KickMembers", "BanMembers"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)

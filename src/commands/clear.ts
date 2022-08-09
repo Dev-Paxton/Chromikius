@@ -1,4 +1,4 @@
-import { MessageEmbed, TextChannel } from "discord.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 import { Command } from "../structures/Command";
 import delay from "../utils/delay";
 
@@ -14,15 +14,15 @@ export default new Command({
             },
         ]
     },
-    userPermissions: ["MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
-    botPermissions: ["MANAGE_MESSAGES", "READ_MESSAGE_HISTORY"],
+    userPermissions: ["ManageMessages", "ReadMessageHistory"],
+    botPermissions: ["ManageMessages", "ReadMessageHistory"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const inputInteger = interaction.options.get("anzahl")
 
         if (messsagesToBeDeleted === null) var messsagesToBeDeleted = 1
         else if (messsagesToBeDeleted <= 0) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Du musst eine Zahl über 0 angeben")
             interaction.reply({ embeds: [embed], ephemeral: true })
@@ -33,10 +33,10 @@ export default new Command({
             message.delete()
         })
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#ff9e00")
             .setDescription(messsagesToBeDeleted + ". Nachrichten wurden gelöscht")
-            .setFooter("Wird in 5 sek. gelöscht")
+            .setFooter({ text: "Wird in 5 sek. gelöscht" })
         interaction.reply({ embeds: [embed] })
         await delay(5000)
         interaction.deleteReply()

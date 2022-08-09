@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, TextChannel } from "discord.js";
+import { Message, EmbedBuilder, TextChannel } from "discord.js";
 import { Command } from "../structures/Command";
 import { cacheMessages } from "../utils/cacheSelfroleMessages";
 import Database from "../utils/Database";
@@ -34,7 +34,7 @@ export default new Command({
             }
         ]
     },
-    userPermissions: ["ADMINISTRATOR"],
+    userPermissions: ["Administrator"],
     allowDm: false,
     execute: async ({ client, interaction }) => {
         const emoji = String(interaction.options.get("emoji").value)
@@ -42,8 +42,10 @@ export default new Command({
         const channel = interaction.options.get("channel").channel as TextChannel
         const messageId = String(interaction.options.get("messageid").value)
 
-        if (channel.type != "GUILD_TEXT") {
-            const embed = new MessageEmbed()
+        console.log(channel.type)
+        return
+        if (/*channel.type != "GUILD_TEXT"*/ true) {
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Du musst einen Text-Channel angeben")
             interaction.reply({ embeds: [embed], ephemeral: true })
@@ -52,7 +54,7 @@ export default new Command({
         
         const message = await channel.messages.fetch(messageId).catch(error => {
             if (error.code === 10008) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setColor("#fc030b")
                     .setTitle("Die Nachricht konnte mit der angegebenen Id nicht gefunden werden")
                 
@@ -66,7 +68,7 @@ export default new Command({
 
         message.react(emoji).catch(error => {
             if (error.code === 10014) {
-                const embed = new MessageEmbed()
+                const embed = new EmbedBuilder()
                     .setColor("#fc030b")
                     .setTitle("Du hast kein Emoji angegeben")
                 
@@ -80,7 +82,7 @@ export default new Command({
         const id = await Database.selfrole_add(emoji, role.id, channel.id, messageId)
         cacheMessages(client)
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#03ff46")
             .setTitle("Selfrole registriert")
             .setDescription("`#" + id + "` " + emoji + " " + `${role}` + " " + `${channel}` + ` [MessageLink](${message.url})`)

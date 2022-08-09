@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 import Database from "../utils/Database";
 
@@ -15,7 +15,7 @@ export default new Command({
             },
         ]
     },
-    userPermissions: ["MANAGE_ROLES", "KICK_MEMBERS", "BAN_MEMBERS"],
+    userPermissions: ["ManageRoles", "KickMembers", "BanMembers"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const member = interaction.options.get("member").user
@@ -23,7 +23,7 @@ export default new Command({
         const warnlevel = await Database.warnsystem_get_stats(member.id)
 
         if (warnlevel === undefined) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle(member.username + " hat keine Verwarnungen")
             interaction.reply({ embeds: [embed] })

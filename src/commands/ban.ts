@@ -13,8 +13,8 @@ export default new Command({
             }
         ],
     },
-    userPermissions: ["BAN_MEMBERS"],
-    botPermissions: ["BAN_MEMBERS"],
+    userPermissions: ["BanMembers"],
+    botPermissions: ["BanMembers"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)

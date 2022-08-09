@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, TextChannel } from "discord.js"
+import { Message, EmbedBuilder, TextChannel } from "discord.js"
 import Database from "./Database"
 
 export async function create(interaction, descriptionHeader){
@@ -23,7 +23,7 @@ export async function create(interaction, descriptionHeader){
             }
         }
         
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#ff9e00")
             .setTitle("Selfroles")
             .setDescription(description)

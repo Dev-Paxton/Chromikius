@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js"
+import { CommandInteraction, EmbedBuilder } from "discord.js"
 import { client } from "../../main"
 import { CommandType } from "../types/commandType"
 
@@ -28,7 +28,7 @@ export default async function checkPermissions(command: CommandType, interaction
     }
     
     if (requiredBotPermissions.length != 0 || requiredUserPermissions.length != 0) {
-        const embed = new MessageEmbed().setColor("#fc030b")
+        const embed = new EmbedBuilder().setColor("#fc030b")
 
         if (requiredUserPermissions) embed.setTitle("Dazu bist du nicht berechtigt")
         else if (requiredBotPermissions) embed.setTitle("Dafür fehlen mir Berechtigungen")
@@ -41,8 +41,9 @@ export default async function checkPermissions(command: CommandType, interaction
                 if (userValue === undefined) userValue = permission + "\n"
                 else userValue += permission + "\n"
             })
+            embed.addFields()
 
-            embed.addField("User", userValue, true)
+            embed.addFields({ name: "user", value: userValue, inline: true})
         }
 
         if (requiredBotPermissions.length != 0) {
@@ -52,7 +53,7 @@ export default async function checkPermissions(command: CommandType, interaction
                 else botValue += permission + "\n"
             })
 
-            embed.addField("Bot", botValue, true)
+            embed.addFields({ name: "Bot", value: botValue, inline: true })
         }
 
         interaction.reply({ embeds: [embed], ephemeral: true })

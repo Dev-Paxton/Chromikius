@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 import Database from "../utils/Database";
 
@@ -21,7 +21,7 @@ export default new Command({
             },
         ],
     },
-    userPermissions: ["ADMINISTRATOR"],
+    userPermissions: ["Administrator"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const member = interaction.options.get("member")
@@ -30,7 +30,7 @@ export default new Command({
         const stats = await Database.levelsystem_get_stats(member.user.id)
         
         if (stats === undefined) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Dieser User hat noch keine Nachricht verfasst")
             await interaction.reply({ embeds: [embed], ephemeral: true })

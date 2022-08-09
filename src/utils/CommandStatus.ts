@@ -1,4 +1,4 @@
-import { CommandInteraction, MessageEmbed } from "discord.js"
+import { CommandInteraction, EmbedBuilder } from "discord.js"
 import Config from "./Config"
 import Database from "./Database"
 
@@ -25,7 +25,7 @@ export default class CommandStatus {
 
     static checkStatus(commandName: string, interaction: CommandInteraction) {
         if (this.disabledCommands.includes(commandName)) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Der Command `" + commandName + "` ist deaktiviert")
             interaction.reply({ embeds: [embed], ephemeral: true })

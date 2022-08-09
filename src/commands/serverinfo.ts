@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
@@ -8,16 +8,18 @@ export default new Command({
     },
     allowDm: false,
     execute: async ({ interaction }) => {
-        const joinedAt = interaction.guild.createdAt.getDay() + "." + interaction.guild.createdAt.getMonth().toString() + "." + interaction.guild.createdAt.getFullYear().toString()
+        const createdAt = interaction.guild.createdAt.getDay() + "." + interaction.guild.createdAt.getMonth().toString() + "." + interaction.guild.createdAt.getFullYear().toString()
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
                 .setColor("#ff9e00")
                 .setTitle(interaction.guild.name)
-                .addField("Member:", String(interaction.guild.memberCount))
-                .addField("Channel:", String(interaction.guild.channels.channelCountWithoutThreads))
-                .addField("Boosts:", String(interaction.guild.premiumSubscriptionCount))
-                .addField("Servererstellung:", joinedAt, false)
-                .addField("Serverowner:", (await interaction.guild.fetchOwner()).displayName)
+                .addFields(
+                    { name: "Member:", value: String(interaction.guild.memberCount) },
+                    { name: "Channel:", value: String(interaction.guild.channels.channelCountWithoutThreads) },
+                    { name: "Boosts:", value: String(interaction.guild.premiumSubscriptionCount) },
+                    { name: "Servererstellung:", value: createdAt, inline: false },
+                    { name: "Serverowner:", value: (await interaction.guild.fetchOwner()).displayName }
+                )
                 .setThumbnail(interaction.guild.iconURL())
             
         await interaction.reply({ embeds: [embed], ephemeral: true })

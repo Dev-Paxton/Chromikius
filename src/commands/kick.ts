@@ -13,8 +13,8 @@ export default new Command({
             }
         ]
     },
-    userPermissions: ["KICK_MEMBERS"],
-    botPermissions: ["KICK_MEMBERS"],
+    userPermissions: ["KickMembers"],
+    botPermissions: ["KickMembers"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
