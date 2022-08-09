@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
@@ -7,7 +7,7 @@ export default new Command({
         description: "Link zu Kevin Chromiks GitHub Profile"
     },
     execute: async ({ interaction }) => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
                 .setColor("#ff9e00")
                 .setTitle("Kevin Chromik's GitHub Account:\nhttps://github.com/kchromik")
             

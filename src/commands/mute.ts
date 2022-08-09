@@ -20,8 +20,8 @@ export default new Command({
             }
         ]
     },
-    userPermissions: ["MANAGE_ROLES"],
-    botPermissions: ["MANAGE_ROLES"],
+    userPermissions: ["ManageRoles"],
+    botPermissions: ["ManageRoles"],
     allowDm: false,
     execute: async ({ interaction }) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)

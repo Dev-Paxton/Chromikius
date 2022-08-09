@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
@@ -44,17 +44,19 @@ export default new Command({
             var premiumSice = guildMember.premiumSince.toString()
         }
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#ff9e00")
             .setTitle(guildMember.displayName)
             .setThumbnail(member.avatarURL())
-            .addField("Name", member.username + "#" + member.discriminator, true)
-            .addField("ID", String(member.id), true)
-            .addField("Serverbeitritt", joinedAt, true)
-            .addField("Booster seit", premiumSice, true)
+            .addFields(
+                { name: "Name", value: member.username + "#" + member.discriminator, inline: true },
+                { name: "ID", value: String(member.id), inline: true },
+                { name: "Serverbeitritt", value: joinedAt, inline: true },
+                { name: "Booster seit", value: premiumSice, inline: true }
+            )
 
         if (roles != "") {
-            embed.addField("Rollen", roles, true)
+            embed.addFields({ name: "Rollen", value: roles, inline: true })
         }
 
         await interaction.reply({ embeds: [embed], ephemeral: true })

@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { Command } from "../structures/Command";
 
 export default new Command({
@@ -14,11 +14,11 @@ export default new Command({
             }
         ]
     },
-    userPermissions: ["BAN_MEMBERS"],
-    botPermissions: ["BAN_MEMBERS"],
+    userPermissions: ["BanMembers"],
+    botPermissions: ["BanMembers"],
     allowDm: false,
     execute: async ({ interaction }) => {
-        const user = interaction.options.getString('username').split("#")
+        const user = String(interaction.options.get('username').value).split("#")
 
         const bannedUsers = await interaction.guild.bans.fetch()
         const userName = user[0]
@@ -32,7 +32,7 @@ export default new Command({
             }
         })
 
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setColor("#fc030b")
             .setTitle(`Für ${userName}#${userDiscriminator} wurde kein User gefunden`)
         interaction.reply({ embeds: [embed], ephemeral: true })

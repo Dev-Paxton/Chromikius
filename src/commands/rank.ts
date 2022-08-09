@@ -1,8 +1,7 @@
-import { MessageEmbed } from "discord.js"
+import { EmbedBuilder } from "discord.js"
 import sharp from "sharp"
 import { Command } from "../structures/Command"
 import { userLevelStats } from "../types/stats"
-import fetch from "node-fetch"
 import fs from "fs"
 import Database from "../utils/Database"
 import { getUserAvatar } from "../utils/getUserAvatar"
@@ -49,7 +48,7 @@ export default new Command({
         }
 
         if (member.bot) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Bots können nicht leveln")
             
@@ -59,7 +58,7 @@ export default new Command({
 
         const owner: Array<string> = ["578087448341643267", "573598260229439503"]
         if (owner.includes(member.id)) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Die Owner können nicht leveln")
         
@@ -69,7 +68,7 @@ export default new Command({
 
         const stats: userLevelStats = await Database.levelsystem_get_stats(member.id)
         if (stats === undefined) {
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Dieser User hat noch keine Nachricht verfasst")
             await interaction.reply({ embeds: [embed], ephemeral: true })

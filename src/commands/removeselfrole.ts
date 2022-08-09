@@ -1,4 +1,4 @@
-import { MessageEmbed, User } from "discord.js";
+import { EmbedBuilder, User } from "discord.js";
 import { Command } from "../structures/Command";
 import { selfroleStats } from "../types/stats";
 import { cacheMessages } from "../utils/cacheSelfroleMessages";
@@ -17,7 +17,7 @@ export default new Command({
             }
         ]
     },
-    userPermissions: ["ADMINISTRATOR"],
+    userPermissions: ["Administrator"],
     allowDm: false,
     execute: async ({ client, interaction }) => {
         const selfroleId = interaction.options.get("id")
@@ -26,7 +26,7 @@ export default new Command({
             const selfrole = await Database.selfrole_remove(selfroleId.value as string, false) as selfroleStats
             cacheMessages(client)
 
-            const embed = new MessageEmbed()
+            const embed = new EmbedBuilder()
                 .setColor("#fc030b")
 
             if (selfrole != undefined) {
@@ -82,7 +82,7 @@ export default new Command({
                 const reaction = collected.first()
 
                 if (reaction.emoji.name === "❌") {
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setColor("#ff9e00")
                         .setTitle("Sicher dass alle Selfroles gelöschen werden sollen?")
                     const msg = await interaction.channel.send({ embeds: [embed] }) as any
@@ -107,7 +107,7 @@ export default new Command({
                         await Database.selfrole_remove(emojiNames[reaction.emoji.name], true)
                         cacheMessages(client)
 
-                        const embed = new MessageEmbed()
+                        const embed = new EmbedBuilder()
                             .setColor("#fc030b")
                             .setTitle("Alle Selfroles wurden gelöscht")
                         interaction.channel.send({ embeds: [embed] })
@@ -116,7 +116,7 @@ export default new Command({
                     const selfrole = await Database.selfrole_remove(emojiNames[reaction.emoji.name], true) as selfroleStats
                     cacheMessages(client)
                     
-                    const embed = new MessageEmbed()
+                    const embed = new EmbedBuilder()
                         .setColor("#fc030b")
                         .setTitle("Selfrole `#" + selfrole.id + "` wurde gelöscht")
                     interaction.channel.send({ embeds: [embed] })

@@ -29,7 +29,7 @@ async function deployCommands() {
     }
   }
 
-  const rest = new REST({ version: '9' }).setToken(Config.bot.token);
+  const rest = new REST({ version: '10' }).setToken(Config.bot.token);
 
   (async () => {
     try {

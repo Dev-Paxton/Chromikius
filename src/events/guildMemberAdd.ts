@@ -1,4 +1,4 @@
-import { MessageEmbed, TextChannel } from "discord.js";
+import { EmbedBuilder, TextChannel } from "discord.js";
 import { Event } from "../structures/Event";
 import Config from "../utils/Config";
 
@@ -6,7 +6,7 @@ export default new Event("guildMemberAdd", (member) => {
     if (member.guild.id != Config.guild.id) return
     
     // Private message
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setColor("#ff9e00")
         .setTitle("__**Herzlich Willkommen auf dem offiziellen Discord Server von Kevin Chromik!**__")
         .setDescription(`**Es freut mich, dass du es hierher gefunden hast!**\n

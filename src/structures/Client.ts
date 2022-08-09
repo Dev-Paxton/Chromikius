@@ -1,22 +1,21 @@
-import { Client, ClientEvents, Collection, Intents } from "discord.js";
+import { Client, ClientEvents, Collection, GatewayIntentBits } from "discord.js";
 import { CommandType } from "../types/commandType";
 import fs from "fs"
 import { Event } from "./Event";
 import Config from "../utils/Config";
 
-const myIntents = new Intents()
-myIntents.add(
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_MEMBERS
-)
+const intents = [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMembers
+]
 
 export class ExtendedClient extends Client {
     commands: Collection<string, CommandType> = new Collection()
 
     constructor() {
-        super({ intents: myIntents })
+        super({ intents: intents })
     }
 
     start() {

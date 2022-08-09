@@ -1,5 +1,5 @@
 import { Command } from "../structures/Command";
-import { MessageEmbed, User } from "discord.js";
+import { EmbedBuilder, User } from "discord.js";
 import fs from "fs"
 
 export default new Command({
@@ -16,13 +16,13 @@ export default new Command({
 	},
 	allowDm: false,
     execute: async({ interaction }) => {
-        const input_command = interaction.options.getString('command')
+        const input_command = String(interaction.options.get("command").value)
 
         var rawdata = fs.readFileSync("./src/commands.json").toString()
     	var commands = JSON.parse(rawdata)
 
 		if (input_command === null) {
-			const embed = new MessageEmbed()
+			const embed = new EmbedBuilder()
 			.setColor("#ff9e00")
 			.setTitle("Commands")
 			.setDescription("Gebe `help [command]` ein oder reagiere auf die Nachricht um mehr Informationen über einen Command zu erhalten")
@@ -48,7 +48,7 @@ export default new Command({
 
 				value = "```\n" + value + "```"
 
-				embed.addField(cmd_group_name, value, true)
+				embed.addFields({ name: cmd_group_name, value: value, inline: true })
 			}
 
 			const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as any
@@ -96,7 +96,7 @@ export default new Command({
 					description += `**${command}**\n${commands[cmd_group][command]}\n\n`
 				
 				}
-				const embed = new MessageEmbed()
+				const embed = new EmbedBuilder()
 					.setColor("#ff9e00")
 					.setTitle(cmd_group_name)
 					.setDescription(description)
@@ -118,7 +118,7 @@ export default new Command({
 				}
 			}
 
-			const embed = new MessageEmbed()
+			const embed = new EmbedBuilder()
 
 			if (command_name === null && command_description === null) {
 				embed.setColor("#fc030b")

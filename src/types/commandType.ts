@@ -1,4 +1,4 @@
-import { ChatInputApplicationCommandData, CommandInteraction, CommandInteractionOptionResolver, GuildMember, PermissionResolvable, PermissionString } from "discord.js";
+import { ChatInputApplicationCommandData, CommandInteraction, CommandInteractionOptionResolver, GuildMember, PermissionResolvable } from "discord.js";
 import { ExtendedClient } from "../structures/Client";
 
 export interface ExtendedInteraction extends CommandInteraction {
@@ -15,7 +15,7 @@ type RunFunction = (options: RunOptions) => any
 
 export type CommandType = {
     data: ChatInputApplicationCommandData
-    userPermissions?: Array<PermissionString>
+    userPermissions?: Array<PermissionResolvable>
     botPermissions?: Array<PermissionResolvable>
     allowDm?: boolean
     execute: RunFunction
