@@ -16,7 +16,13 @@ export default new Command({
 	},
 	allowDm: false,
     execute: async({ interaction }) => {
-        const input_command = String(interaction.options.get("command").value)
+		const commandOption = interaction.options.get("command")
+
+		if(commandOption) {
+			var input_command = commandOption.value as any
+		} else {
+			var input_command = null
+		}
 
         var rawdata = fs.readFileSync("./src/commands.json").toString()
     	var commands = JSON.parse(rawdata)
