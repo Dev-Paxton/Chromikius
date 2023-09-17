@@ -8,7 +8,9 @@ const intents = [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessageReactions,
     GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.GuildMembers
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions
 ]
 
 export class ExtendedClient extends Client {
