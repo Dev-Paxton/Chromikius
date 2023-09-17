@@ -1,5 +1,5 @@
 import { User } from "discord.js"
-import fetch from "node-fetch"
+
 
 export async function getUserAvatar(member: User) {
     return new Promise(async resolve => {
@@ -7,7 +7,7 @@ export async function getUserAvatar(member: User) {
             resolve("./images/discord_logo.jpg")
         }  else {
             const response = await fetch(member.avatarURL())
-            const buffer = await response.buffer()
+            const buffer = await response.arrayBuffer()
             resolve(buffer)
         }
     })

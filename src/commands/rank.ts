@@ -1,30 +1,8 @@
-import { EmbedBuilder } from "discord.js"
-import sharp from "sharp"
+import { AttachmentBuilder, EmbedBuilder } from "discord.js"
 import { Command } from "../structures/Command"
 import { userLevelStats } from "../types/stats"
-import fs from "fs"
 import Database from "../utils/Database"
-import { getUserAvatar } from "../utils/getUserAvatar"
-
-async function getSvgBuffer(text: string | number, x:number, y:number) {
-    y += 35
-    const svg = `
-    <svg width="900" height="300">
-        <style>
-            @import url('https://fonts.googleapis.com/css2?amp;family=Roboto+Mono&amp;display=swap');
-            .text {
-                fill: #ffff;
-                font-size: 50px;
-                font-family: 'Roboto Mono', monospace;
-                font-weight: bold;
-            }
-        </style>
-        <text x="${x}" y="${y}" class="text">${text}</text>
-    </svg>`
-
-    const svgBuffer = Buffer.from(svg)
-    return svgBuffer
-}
+import { createCanvas, loadImage, registerFont } from "canvas"
 
 export default new Command({
     data: {
@@ -75,102 +53,62 @@ export default new Command({
             return
         }
 
-        const fileNameAvatar = member.id + "Avatar.png"
-        const fileNameCard = member.id + "Card.png"
+        registerFont(__dirname + "../../../assets/fonts/RobotoMono-VariableFont_wght.ttf", { family: "Roboto Mono" })
+        const canvas = createCanvas(900, 300)
+        const ctx = canvas.getContext("2d")
 
-        sharp(await getUserAvatar(member))
-        .resize({ width: 200, height: 200 })
-        .extend({top: 10, right: 10, bottom: 10, left: 10, background: "black"})
-        .png()
-        .toFile(fileNameAvatar, async (error) => {
-            if (error) throw error
+        ctx.font = "50px Roboto Mono"
 
-            if (stats.xp === 0) {
-                var progressBar = "--------------------"
-            } else if (stats.xp === 1) {
-                var progressBar = "[][][][][]----------"
-            } else if (stats.xp === 2) {
-                var progressBar = "[][][][][][][][][][]"
+        ctx.drawImage(await loadImage(`${__dirname}/../../assets/images/background${Math.floor(Math.random() * 5) +1}.png`), 0, 0)
+
+        ctx.fillRect(40, 40, 220, 220)
+
+        ctx.drawImage(await loadImage(member.displayAvatarURL({ extension: "jpeg"})), 50, 50, 200, 200)
+
+        ctx.fillStyle = "#ffffff"
+
+        const labelTextHeight = 40 + ctx.measureText("Level:Rank:xp:").actualBoundingBoxAscent + ctx.measureText("Level:Rank:xp:").actualBoundingBoxDescent
+        const textHeight = labelTextHeight + 20 + ctx.measureText("100100100").actualBoundingBoxAscent + ctx.measureText("100010001000").actualBoundingBoxDescent
+
+        ctx.fillText("Level:", 300, labelTextHeight)
+        ctx.fillText(stats.level.toString(), 300, textHeight)
+
+        ctx.fillText("Rank:", 500, labelTextHeight)
+        ctx.fillText(stats.rank.toString(), 500, textHeight)
+
+        ctx.fillText("xp:", 700, labelTextHeight)
+        ctx.fillText(stats.xp.toString(), 700, textHeight)
+
+        const levelUp = stats.level * stats.level
+        const currentLevelUp = (stats.level - 1) * (stats.level - 1)
+        const requiredXpInPercent = 100 / (levelUp - currentLevelUp) * (stats.xp - currentLevelUp)
+        const requiredSymbols = requiredXpInPercent / 10
+
+        var progressBar = ""
+        var a = 1
+        while (a <= requiredSymbols) {
+            if (progressBar === undefined) {
+                progressBar = "[]"
+            } else {
+                progressBar += "[]"
             }
-            else /*if (stats.level != 1)*/ {
-                const levelUp = stats.level * stats.level
-                const currentLevelUp = (stats.level - 1) * (stats.level - 1)
-                const requiredXpInPercent = 100 / (levelUp - currentLevelUp) * (stats.xp - currentLevelUp)
-                const requiredSymbols = requiredXpInPercent / 10
+            a += 1
+        }
 
-                var progressBar = ""
-                var a = 1
-                while (a <= requiredSymbols) {
-                    if (progressBar === undefined) {
-                        progressBar = "[]"
-                    } else {
-                        progressBar += "[]"
-                    }
-                    a += 1
-                }
+        while (progressBar.length < 20) {
+            progressBar += "--"
+        }
 
-                while (progressBar.length < 20) {
-                    progressBar += "--"
-                }
-            }
+        ctx.fillText("|", 300, 240)
+        const lineWidth = ctx.measureText("|").width
 
-            sharp(`images/background${Math.floor(Math.random() * 5) + 1}.png`)
-            .composite([
-                {
-                    input: fileNameAvatar,
-                    top: 40,
-                    left: 40,
-                },
-                {
-                    input: await getSvgBuffer("Level:", 300, 40),
-                    top: 0,
-                    left: 0
-                },
-                {
-                    input: await getSvgBuffer(stats.level, 300, 100),
-                    top: 0,
-                    left: 0
-                },
-                {
-                    input: await getSvgBuffer("Rank:", 500, 40),
-                    top: 0,
-                    left: 0
-                },
-                {
-                    input: await getSvgBuffer(stats.rank, 500, 100),
-                    top: 0,
-                    left: 0
-                },
-                {
-                    input: await getSvgBuffer("xp:", 700, 40),
-                    top: 0,
-                    left: 0
-                },
-                {
-                    input: await getSvgBuffer(stats.xp, 700, 100),
-                    top: 0,
-                    left: 0
-                },
-                {
-                    input: await getSvgBuffer("|" + progressBar + "|", 300, 200),
-                    top: 0,
-                    left: 0
-                }
-            ])
-            .png()
-            .toFile(fileNameCard, async (error) => {
-                if (error) throw error
-                
-                await interaction.reply({ files: [fileNameCard]})
-                
-                fs.unlink(fileNameAvatar, (error) => {
-                    if (error) throw error
-                })
-            
-                fs.unlink(fileNameCard, (error) => {
-                    if (error) throw error
-                })
-            })
-        })
+        ctx.font = "40px Roboto Mono"
+        const progressBarTextWidth = ctx.measureText(progressBar).width
+        ctx.fillText(progressBar, 300 + lineWidth, 240)
+
+        ctx.font = "50px Roboto Mono"
+        ctx.fillText("|", 300 + lineWidth + progressBarTextWidth, 240)
+
+        await interaction.reply({ files: [new AttachmentBuilder(canvas.toBuffer("image/jpeg"), { name: member.displayName + ".jpeg" })] })
     }
 })
