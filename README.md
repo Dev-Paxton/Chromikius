@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./images/profile_image.png">
+<img src="./assets/images/profile_image.png">
 
 # **Chromikius**
 
