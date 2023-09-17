@@ -1,14 +1,14 @@
 {
   "name": "Chromikius",
-  "version": "1.12.8",
+  "version": "1.13.0",
   "description": "",
   "main": "main.ts",
   "scripts": {
-    "start": "ts-node ./main.ts",
-    "deploy": "ts-node ./deploy_commands.ts",
-    "build": "tsc && cp -r ./images ./dist/",
-    "start:prod": "node ./dist/main.js",
-    "deploy:prod": "node ./dist/deploy_commands.js"
+    "start": "node ./dist/main.js",
+    "dev": "NODE_ENV='dev' ts-node main.ts",
+    "deploy": "node ./dist/deploy_commands.js",
+    "devDeploy": "NODE_ENV='dev' ts-node ./deploy_commands.js",
+    "build": "tsc && cp -r ./assets ./dist"
   },
   "repository": {
     "type": "git",
@@ -23,16 +23,12 @@
   "homepage": "https://github.com/DevGoro/Chromikius#readme",
   "dependencies": {
     "canvas": "^2.11.2",
-    "config": "^3.3.9",
     "discord.js": "^14.13.0",
-    "mysql": "^2.18.1",
-    "node-fetch": "^2.7.0"
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
-    "@types/config": "^3.3.1",
     "@types/mysql": "^2.15.21",
     "@types/node": "^20.6.2",
-    "@types/node-fetch": "^2.6.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
