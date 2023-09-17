@@ -18,27 +18,31 @@ export default new Command({
     botPermissions: ["ManageMessages", "ReadMessageHistory"],
     allowDm: false,
     execute: async ({ interaction }) => {
-        const inputInteger = interaction.options.get("anzahl")
+        const input = interaction.options.get("anzahl")
 
-        if (messsagesToBeDeleted === null) var messsagesToBeDeleted = 1
-        else if (messsagesToBeDeleted <= 0) {
+        if (input === null) var messsagesToBeDeleted = 1
+        else var messsagesToBeDeleted = Number(input.value)
+
+        if (messsagesToBeDeleted <= 0) {
             const embed = new EmbedBuilder()
                 .setColor("#fc030b")
                 .setTitle("Du musst eine Zahl über 0 angeben")
             interaction.reply({ embeds: [embed], ephemeral: true })
-        } else var messsagesToBeDeleted = inputInteger.value as number
+        } else {
+            const channel = await interaction.guild.channels.fetch(interaction.channelId) as TextChannel
+            const messages = (await channel.messages.fetch({ limit: messsagesToBeDeleted })).forEach((message) => {
+                message.delete()
+            })
 
-        const channel = await interaction.guild.channels.fetch(interaction.channelId) as TextChannel
-        const messages = (await channel.messages.fetch({ limit: messsagesToBeDeleted })).forEach((message) => {
-            message.delete()
-        })
+            const embed = new EmbedBuilder()
+                .setColor("#ff9e00")
+                .setDescription(messsagesToBeDeleted + ". Nachrichten wurden gelöscht")
+                .setFooter({ text: "Wird in 5 sek. gelöscht" })
+            interaction.reply({ embeds: [embed] })
+            await delay(5000)
+            interaction.deleteReply()
+        }
 
-        const embed = new EmbedBuilder()
-            .setColor("#ff9e00")
-            .setDescription(messsagesToBeDeleted + ". Nachrichten wurden gelöscht")
-            .setFooter({ text: "Wird in 5 sek. gelöscht" })
-        interaction.reply({ embeds: [embed] })
-        await delay(5000)
-        interaction.deleteReply()
+        
     }
 })
