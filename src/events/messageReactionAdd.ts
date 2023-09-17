@@ -2,6 +2,8 @@ import { Event } from "../structures/Event"
 import Database from "../utils/Database"
 
 export default new Event("messageReactionAdd", async (reaction, user) => {
+    if (!reaction.message.inGuild()) return
+
     if (user.bot) return
     const member = await reaction.message.guild.members.fetch(user.id)
     var selfroles = await Database.selfrole_getAllByEmoji(reaction.emoji.name)

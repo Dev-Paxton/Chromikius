@@ -1,6 +1,7 @@
 import { Command } from "../structures/Command";
-import { EmbedBuilder, User } from "discord.js";
+import { EmbedBuilder, TextChannel, User } from "discord.js";
 import fs from "fs"
+import { client } from "../../main";
 
 export default new Command({
 	data: {
@@ -14,7 +15,7 @@ export default new Command({
 			}
 		],
 	},
-	allowDm: false,
+	allowDm: true,
     execute: async({ interaction }) => {
 		const commandOption = interaction.options.get("command")
 
@@ -57,19 +58,22 @@ export default new Command({
 				embed.addFields({ name: cmd_group_name, value: value, inline: true })
 			}
 
-			const msg = (await interaction.reply({ embeds: [embed], fetchReply: true })) as any
+			const msg = (await interaction.reply({ embeds: [embed], fetchReply: true }))
+
+			const channel = await client.channels.fetch(msg.channelId) as TextChannel
+			const message = await channel.messages.fetch(msg.id)
 
 			const allowed_reactions = []
 			Object.keys(cmd_group_emojis).forEach(key => {
 				allowed_reactions.push(cmd_group_emojis[key])
 			})
-
+			
 			msg.react("👤")
-				.then(() => msg.react("⬆"))
-				.then(() => msg.react("👮"))
-				.then(() => msg.react("⚠"))
-				.then(() => msg.react("🅰️"))
-
+			.then(() => msg.react("⬆")).catch((error) => { if(error.code === 10008) return })
+			.then(() => msg.react("👮")).catch((error) => { if(error.code === 10008) return })
+			.then(() => msg.react("⚠")).catch((error) => { if(error.code === 10008) return })
+			.then(() => msg.react("🅰️")).catch((error) => { if(error.code === 10008) return })
+			
 			const filter = (reaction, user: User) => {
 				if (user.id === interaction.user.id) {
 					if (allowed_reactions.includes(reaction.emoji.name)) {
@@ -110,7 +114,10 @@ export default new Command({
 			})
 			.catch(collected => {
 				msg.reactions.removeAll()
-					.catch(error => console.error('Failed to clear reactions:', error));
+					.catch(error => {
+						if (error.code === 50003) return
+						else console.error('Failed to clear reactions:', error)
+				});
 			});
 		} else {
 			var command_name = null
