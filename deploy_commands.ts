@@ -2,8 +2,6 @@ import fs from "fs"
 import Config from "./src/utils/Config"
 import { REST, Routes } from "discord.js"
 
-Config.loadConfig()
-
 async function deployCommands() {
   const guildCommands = []
   const dmCommands = []
