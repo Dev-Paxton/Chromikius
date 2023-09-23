@@ -7,7 +7,7 @@
     "start": "node ./dist/main.js",
     "dev": "NODE_ENV='dev' ts-node main.ts",
     "deploy": "node ./dist/deploy_commands.js",
-    "devDeploy": "NODE_ENV='dev' ts-node ./deploy_commands.js",
+    "devDeploy": "NODE_ENV='dev' ts-node ./deploy_commands.ts",
     "build": "tsc && cp -r ./assets ./dist"
   },
   "repository": {
