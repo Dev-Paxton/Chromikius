@@ -30,9 +30,8 @@ export default new Command({
             interaction.reply({ embeds: [embed], ephemeral: true })
         } else {
             const channel = await interaction.guild.channels.fetch(interaction.channelId) as TextChannel
-            const messages = (await channel.messages.fetch({ limit: messsagesToBeDeleted })).forEach((message) => {
-                message.delete()
-            })
+            const messages = (await channel.messages.fetch({ limit: messsagesToBeDeleted }))
+            await channel.bulkDelete(messages)
 
             const embed = new EmbedBuilder()
                 .setColor("#ff9e00")
