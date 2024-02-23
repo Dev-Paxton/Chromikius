@@ -1,7 +1,6 @@
 import { Command } from "../structures/Command";
 import { EmbedBuilder, TextChannel, User } from "discord.js";
 import fs from "fs"
-import { client } from "../../main";
 
 export default new Command({
 	data: {
@@ -16,7 +15,7 @@ export default new Command({
 		],
 	},
 	allowDm: true,
-    execute: async({ interaction }) => {
+    execute: async({ client, interaction }) => {
 		const commandOption = interaction.options.get("command")
 
 		if(commandOption) {
