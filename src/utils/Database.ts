@@ -108,7 +108,7 @@ export default class Database {
                             })
                             
                             this.db.commit()
-                            message.react("<:LevelUp:726876303319367751>")
+                            message.react("<:LevelUp:726876303319367751>").catch(error => { if (error.message !== "Reaction blocked") console.error(error) })
                             resolve()
                         }
                     } else {
@@ -120,7 +120,7 @@ export default class Database {
                             })
                             
                             this.db.commit()
-                            message.react("<:LevelUp:726876303319367751>")
+                            message.react("<:LevelUp:726876303319367751>").catch(error => { if (error.message !== "Reaction blocked") console.error(error) })
                             resolve()
                         }
                     }
