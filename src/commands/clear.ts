@@ -31,7 +31,10 @@ export default new Command({
         } else {
             const channel = await interaction.guild.channels.fetch(interaction.channelId) as TextChannel
             const messages = (await channel.messages.fetch({ limit: messsagesToBeDeleted }))
-            await channel.bulkDelete(messages)
+            await channel.bulkDelete(messages, true).then(deletedMessages => {
+                messages.filter(message => !deletedMessages.has(message.id))
+                .forEach(message => message.delete())
+            })
 
             const embed = new EmbedBuilder()
                 .setColor("#ff9e00")
