@@ -1,5 +1,5 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js"
-import { client } from "../../main"
+import { client } from "../main"
 import { CommandProperties } from "../structures/Command"
 
 export default async function checkPermissions(command: CommandProperties, interaction: CommandInteraction) {

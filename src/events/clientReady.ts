@@ -1,9 +1,9 @@
 import { Event } from "../structures/Event";
-import { client } from "../../main";
+import { client } from "../main";
 import delay from "../utils/delay";
 import { cacheMessages } from "../utils/cacheSelfroleMessages";
 
-export default new Event("ready", async () => {
+export default new Event("clientReady", async () => {
     console.log(`The client has been successfully logged in as user ${client.user.username}`)
 
     // Cache Selfrole messages

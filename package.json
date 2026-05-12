@@ -2,12 +2,12 @@
   "name": "Chromikius",
   "version": "1.13.5",
   "description": "",
-  "main": "main.ts",
+  "main": "dist/main.js",
   "scripts": {
     "start": "node ./dist/main.js",
-    "dev": "NODE_ENV='dev' ts-node main.ts",
+    "dev": "NODE_ENV='dev' ts-node src/main.ts",
     "deploy": "node ./dist/deploy_commands.js",
-    "devDeploy": "NODE_ENV='dev' ts-node ./deploy_commands.ts",
+    "devDeploy": "NODE_ENV='dev' ts-node src/deploy_commands.ts",
     "build": "tsc && cp -r ./assets ./dist"
   },
   "repository": {
@@ -30,6 +30,6 @@
     "@types/mysql": "^2.15.26",
     "@types/node": "^25.7.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.4"
+    "typescript": "^6.0.3"
   }
 }

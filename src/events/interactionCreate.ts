@@ -1,4 +1,4 @@
-import { client } from "../../main";
+import { client } from "../main";
 import { Event } from "../structures/Event"
 import CommandStatus from "../utils/CommandStatus";
 import checkPermissions from "../utils/permissionHandler";
