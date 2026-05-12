@@ -6,7 +6,7 @@ export default new Command({
         name: "ping",
         description: "Antwortet mit der Latenz",
     },
-    execute: async({ interaction, client }) => {
+    execute: async (client, interaction) => {
         const embed = new EmbedBuilder()
             .setColor("#ff9e00")
             .setTitle("🏓 Pong!")

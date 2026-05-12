@@ -16,7 +16,7 @@ export default new Command({
     userPermissions: ["BanMembers"],
     botPermissions: ["BanMembers"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
 
         await member.ban()

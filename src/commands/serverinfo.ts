@@ -7,7 +7,7 @@ export default new Command({
         description: "Zeigt Informationen über den Server",
     },
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const createdAt = interaction.guild.createdAt.getDay() + "." + interaction.guild.createdAt.getMonth().toString() + "." + interaction.guild.createdAt.getFullYear().toString()
 
         const embed = new EmbedBuilder()

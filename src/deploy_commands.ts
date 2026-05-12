@@ -1,5 +1,5 @@
 import fs from "fs"
-import Config from "./src/utils/Config"
+import Config from "./utils/Config"
 import { REST, Routes } from "discord.js"
 
 async function deployCommands() {
@@ -7,11 +7,11 @@ async function deployCommands() {
   const dmCommands = []
 
   const commandFiles = []
-  commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/src/commands`).filter(file => file.endsWith('.ts')))
-  commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/src/commands`).filter(file => file.endsWith('.js')))
+  commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.ts')))
+  commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/commands`).filter(file => file.endsWith('.js')))
 
   for (const file of commandFiles) {
-    const command = await import(`${__dirname}/src/commands/${file}`)
+    const command = await import(`${__dirname}/commands/${file}`)
 
     if (command.default.allowDm === true || command.default.allowDm === undefined) {
       dmCommands.push(command.default.data)
@@ -19,7 +19,7 @@ async function deployCommands() {
   }
 
   for (const file of commandFiles) {
-    const command = await import(`${__dirname}/src/commands/${file}`)
+    const command = await import(`${__dirname}/commands/${file}`)
     
     if (!dmCommands.includes(command.default.data)) {
       guildCommands.push(command.default.data)

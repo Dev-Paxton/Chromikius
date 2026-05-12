@@ -19,7 +19,7 @@ export default new Command({
     },
     userPermissions: ["Administrator"],
     allowDm: false,
-    execute: async ({ client, interaction }) => {
+    execute: async (client, interaction) => {
         const selfroleId = interaction.options.get("id")
 
         if (selfroleId) {

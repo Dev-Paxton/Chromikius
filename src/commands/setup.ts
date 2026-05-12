@@ -6,7 +6,7 @@ export default new Command({
         name: "setup",
         description: "Kevin Chromiks Setup",
     },
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const embed = new EmbedBuilder()
             .setColor("#ff9e00")
             // .setTitle("Kevin Chromik's Setup")

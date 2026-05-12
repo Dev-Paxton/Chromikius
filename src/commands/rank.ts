@@ -16,7 +16,7 @@ export default new Command({
             }
         ],
     },
-    execute: async({ interaction }) => {
+    execute: async (client, interaction) => {
         var interactionMember = interaction.options.get("member")
 
         if (interactionMember) {
