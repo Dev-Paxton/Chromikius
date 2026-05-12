@@ -19,7 +19,7 @@ export default new Command({
     },
     userPermissions: ["Administrator"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const command = interaction.options.get("command").value as string
 
         if (commandExists(command)) {

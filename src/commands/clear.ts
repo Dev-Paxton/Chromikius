@@ -17,7 +17,7 @@ export default new Command({
     userPermissions: ["ManageMessages", "ReadMessageHistory"],
     botPermissions: ["ManageMessages", "ReadMessageHistory"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const input = interaction.options.get("anzahl")
 
         if (input === null) var messsagesToBeDeleted = 1

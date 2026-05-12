@@ -1,8 +1,8 @@
 import { Client, ClientEvents, Collection, GatewayIntentBits } from "discord.js";
-import { CommandType } from "../types/commandType";
 import fs from "fs"
 import { Event } from "./Event";
 import Config from "../utils/Config";
+import { CommandProperties } from "./Command";
 
 const intents = [
     GatewayIntentBits.Guilds,
@@ -14,7 +14,7 @@ const intents = [
 ]
 
 export class ExtendedClient extends Client {
-    commands: Collection<string, CommandType> = new Collection()
+    commands: Collection<string, CommandProperties> = new Collection()
 
     constructor() {
         super({ intents: intents })
@@ -32,7 +32,7 @@ export class ExtendedClient extends Client {
         commandFiles.push.apply(commandFiles, fs.readdirSync(`${__dirname}/../commands`).filter(file => file.endsWith('.js')))
 
         for (const file of commandFiles) {
-            const command: CommandType = (await import(`${__dirname}/../commands/${file}`)).default
+            const command: CommandProperties = (await import(`${__dirname}/../commands/${file}`)).default
             this.commands.set(command.data.name, command)
         }
 

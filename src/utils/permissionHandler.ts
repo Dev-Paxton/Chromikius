@@ -1,8 +1,8 @@
 import { CommandInteraction, EmbedBuilder } from "discord.js"
 import { client } from "../../main"
-import { CommandType } from "../types/commandType"
+import { CommandProperties } from "../structures/Command"
 
-export default async function checkPermissions(command: CommandType, interaction: CommandInteraction) {
+export default async function checkPermissions(command: CommandProperties, interaction: CommandInteraction) {
     if (!command.userPermissions && !command.botPermissions) return
 
     const guildMember = await interaction.guild.members.fetch(interaction.user.id)

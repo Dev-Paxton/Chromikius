@@ -17,7 +17,7 @@ export default new Command({
     userPermissions: ["ManageRoles"],
     botPermissions: ["ManageRoles"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
         const muteRole = await interaction.guild.roles.fetch(Config.guild.muteRoleId)
 

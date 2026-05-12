@@ -15,7 +15,7 @@ export default new Command({
 		],
 	},
 	allowDm: true,
-    execute: async({ client, interaction }) => {
+    execute: async (client, interaction) => {
 		const commandOption = interaction.options.get("command")
 
 		if(commandOption) {

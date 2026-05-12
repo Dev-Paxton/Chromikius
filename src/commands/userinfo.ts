@@ -14,7 +14,7 @@ export default new Command({
         ],
     },
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const input_member = interaction.options.get("member")
 
         if (input_member === null) { 

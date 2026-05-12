@@ -23,7 +23,7 @@ export default new Command({
     },
     userPermissions: ["Administrator"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const member = interaction.options.get("member")
         const xpToBeRemoved = interaction.options.get("xp").value as number
 

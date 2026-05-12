@@ -36,7 +36,7 @@ export default new Command({
     },
     userPermissions: ["Administrator"],
     allowDm: false,
-    execute: async ({ client, interaction }) => {
+    execute: async (client, interaction) => {
         const emoji = String(interaction.options.get("emoji").value)
         const role = interaction.options.get("role").role
         const channel = interaction.options.get("channel").channel as TextChannel

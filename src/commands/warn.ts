@@ -63,7 +63,7 @@ export default new Command({
     userPermissions: ["ManageRoles", "KickMembers", "BanMembers"],
     botPermissions: ["ManageRoles", "KickMembers", "BanMembers"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
         
         var reason = interaction.options.get("grund")

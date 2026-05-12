@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/DevGoro/Chromikius#readme",
   "dependencies": {
-    "canvas": "^2.11.2",
+    "canvas": "^3.2.3",
     "discord.js": "^14.15.3",
     "mysql": "^2.18.1"
   },

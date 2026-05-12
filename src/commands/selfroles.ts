@@ -7,7 +7,7 @@ export default new Command({
         description: "Listet alle Selfroles auf",
     },
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         interaction.reply({ embeds: [await create(interaction, "")] })
     }
 })

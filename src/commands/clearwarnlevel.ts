@@ -17,7 +17,7 @@ export default new Command({
     },
     userPermissions: ["ManageRoles", "KickMembers", "BanMembers"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const member = interaction.options.get("member").user
 
         const warnlevel = await Database.warnsystem_get_stats(member.id)

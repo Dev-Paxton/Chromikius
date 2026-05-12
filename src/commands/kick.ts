@@ -16,7 +16,7 @@ export default new Command({
     userPermissions: ["KickMembers"],
     botPermissions: ["KickMembers"],
     allowDm: false,
-    execute: async ({ interaction }) => {
+    execute: async (client, interaction) => {
         const member = await interaction.guild.members.fetch(interaction.options.get("member").user.id)
         await member.kick()
         interaction.reply(member.user.username + "#" + member.user.discriminator + " wurde gekickt")
